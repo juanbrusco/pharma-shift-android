@@ -51,10 +51,118 @@ class MainActivity : AppCompatActivity() {
 //                    .setAction("Action", null).show()
 //        }
 
-        getCurrentShift()
+        getTodayData()
     }
 
-    fun requestGeoPermission() {
+    private fun prepareSimpleScreenButtons() {
+        button_call?.setOnClickListener {
+        }
+
+        button_address?.setOnClickListener {
+            requestGeoPermission()
+        }
+
+        button_share?.setOnClickListener {
+        }
+
+        button_refresh?.setOnClickListener {
+            val i = Intent(this@MainActivity, MainActivity::class.java)
+            finish()
+            overridePendingTransition(0, 0)
+            startActivity(i)
+            overridePendingTransition(0, 0)
+        }
+    }
+
+    private fun getExtraMsg() {
+        cardView_msg.visibility = GONE
+    }
+
+    private fun getTodayData() {
+        val request = RetrofitClient.buildService(ApiService::class.java)
+        val call = request.getShift()
+        call.enqueue(object : Callback<ShiftResponse> {
+            override fun onResponse(call: Call<ShiftResponse>, response: Response<ShiftResponse>) {
+                if (response.isSuccessful) {
+                    val shifts: List<ShiftX> = response.body()?.shift!!
+                    if (shifts.isNotEmpty()) {
+                        // Multiple shifts day
+                        if (shifts.size > 1) {
+
+                        } else {
+                            setContentView(R.layout.activity_main)
+                            pharmacy_city.text = "Salto, Buenos Aires, Argentina"
+
+                            // TODO: use "?" to check if value comes from service
+                            pharmacyObj = shifts[0].pharmacy
+                            pharmacy_name.text = shifts[0].pharmacy.name
+                            pharmacy_date_to.text = shifts[0].date_from
+                            pharmacy_address.text = shifts[0].pharmacy.address
+                            pharmacy_phone.text = shifts[0].pharmacy.phone
+
+                            prepareSimpleScreenButtons()
+                            getTomorrowData()
+                            getExtraMsg()
+                        }
+                    } else {
+                        pharmacy_name.text = "-"
+                        pharmacy_date_to.text = "-"
+                        pharmacy_address.text = "-"
+                        pharmacy_phone.text = "-"
+                        button_call.visibility = GONE
+                        button_address.visibility = GONE
+                        button_share.visibility = GONE
+                    }
+
+                } else {
+                    displayMainError(this@MainActivity.getString(R.string.response_error))
+                }
+            }
+
+            override fun onFailure(call: Call<ShiftResponse>, t: Throwable) {
+                displayMainError(this@MainActivity.getString(R.string.request_error))
+            }
+        })
+    }
+
+    private fun getTomorrowData() {
+        var nextDay: Map<String, String> = getNextDay()
+        val request = RetrofitClient.buildService(ApiService::class.java)
+        val call = request.getShiftByDay(
+            nextDay["day"].toString(),
+            nextDay["month"].toString(),
+            nextDay["year"].toString()
+        )
+        call.enqueue(object : Callback<ShiftResponse> {
+            override fun onResponse(call: Call<ShiftResponse>, response: Response<ShiftResponse>) {
+                if (response.isSuccessful) {
+                    val shifts: List<ShiftX> = response.body()?.shift!!
+                    if (shifts.isNotEmpty()) {
+                        pharmacy_name_tomorrow.text = shifts[0].pharmacy.name
+                    } else {
+                        pharmacy_name_tomorrow.text = ""
+                    }
+
+                } else {
+                    displayMainError(this@MainActivity.getString(R.string.response_error))
+                }
+            }
+
+            override fun onFailure(call: Call<ShiftResponse>, t: Throwable) {
+                displayMainError(this@MainActivity.getString(R.string.request_error))
+            }
+        })
+    }
+
+    private fun displayMainError(error: String) {
+        Toast.makeText(
+            this@MainActivity,
+            error,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun requestGeoPermission() {
         // Initialize a list of required permissions to request runtime
         val list = listOf<String>(
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -83,108 +191,6 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-    }
-
-    private fun prepareScreenButtons() {
-        button_call?.setOnClickListener {
-        }
-
-        button_address?.setOnClickListener {
-            requestGeoPermission()
-        }
-
-        button_share?.setOnClickListener {
-        }
-
-        button_refresh?.setOnClickListener {
-            val i = Intent(this@MainActivity, MainActivity::class.java)
-            finish()
-            overridePendingTransition(0, 0)
-            startActivity(i)
-            overridePendingTransition(0, 0)
-        }
-    }
-
-    private fun getCurrentShift() {
-        getCurrentDay()
-        val request = RetrofitClient.buildService(ApiService::class.java)
-        val call = request.getShift()
-        call.enqueue(object : Callback<ShiftResponse> {
-            override fun onResponse(call: Call<ShiftResponse>, response: Response<ShiftResponse>) {
-                if (response.isSuccessful) {
-                    setContentView(R.layout.activity_main)
-                    pharmacy_city.text = "Salto, Buenos Aires, Argentina"
-                    cardView_msg.visibility = GONE
-                    val shifts: List<ShiftX> = response.body()?.shift!!
-                    if (shifts.isNotEmpty()) {
-                        pharmacyObj = shifts[0].pharmacy
-                        pharmacy_name.text = shifts[0].pharmacy.name
-                        pharmacy_date_to.text = shifts[0].date_from
-                        pharmacy_address.text = shifts[0].pharmacy.address
-                        pharmacy_phone.text = shifts[0].pharmacy.phone
-                        prepareScreenButtons()
-                        getTomorrowShift()
-                    } else {
-                        pharmacy_name.text = "-"
-                        button_call.visibility = GONE
-                        button_address.visibility = GONE
-                        button_share.visibility = GONE
-                    }
-
-                } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        this@MainActivity.getString(R.string.response_error),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            override fun onFailure(call: Call<ShiftResponse>, t: Throwable) {
-                Toast.makeText(
-                    this@MainActivity,
-                    this@MainActivity.getString(R.string.request_error),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
-    }
-
-    private fun getTomorrowShift() {
-        var nextDay: Map<String, String> = getNextDay()
-        val request = RetrofitClient.buildService(ApiService::class.java)
-        val call = request.getShiftByDay(
-            nextDay["day"].toString(),
-            nextDay["month"].toString(),
-            nextDay["year"].toString()
-        )
-        call.enqueue(object : Callback<ShiftResponse> {
-            override fun onResponse(call: Call<ShiftResponse>, response: Response<ShiftResponse>) {
-                if (response.isSuccessful) {
-                    val shifts: List<ShiftX> = response.body()?.shift!!
-                    if (shifts.isNotEmpty()) {
-                        pharmacy_name_tomorrow.text = shifts[0].pharmacy.name
-                    } else {
-                        pharmacy_name_tomorrow.text = ""
-                    }
-
-                } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        this@MainActivity.getString(R.string.response_error),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            override fun onFailure(call: Call<ShiftResponse>, t: Throwable) {
-                Toast.makeText(
-                    this@MainActivity,
-                    this@MainActivity.getString(R.string.request_error),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
     }
 
     private fun getCurrentDay() {
