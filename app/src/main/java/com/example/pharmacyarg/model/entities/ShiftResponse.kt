@@ -7,5 +7,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class ShiftResponse(
     @SerializedName("shift")
-    val shift: List<ShiftX>
+    val shift: ArrayList<ShiftX>
 ) : Parcelable

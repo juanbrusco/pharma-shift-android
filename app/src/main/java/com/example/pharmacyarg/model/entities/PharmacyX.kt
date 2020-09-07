@@ -9,17 +9,17 @@ data class PharmacyX(
     @SerializedName("id")
     val id: Int,
     @SerializedName("address")
-    val address: String,
+    val address: String?,
     @SerializedName("city")
-    val city: String,
+    val city: String?,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("phone")
-    val phone: String,
+    val phone: String?,
     @SerializedName("lat")
-    val lat: String,
+    val lat: String?,
     @SerializedName("long")
-    val long: String,
+    val long: String?,
     @SerializedName("alt")
-    val alt: String
+    val alt: String?
 ) : Parcelable

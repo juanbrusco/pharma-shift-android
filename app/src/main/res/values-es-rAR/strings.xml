@@ -24,4 +24,5 @@
     <string name="pharmacy_shift_text_tomorrow">Mañana</string>
     <string name="Important_information">Información importante</string>
     <string name="refresh_description">Actualizar</string>
+    <string name="title_activity_main_multi">MainActivityMulti</string>
 </resources>

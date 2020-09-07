@@ -23,19 +23,21 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
 
     private var pharmacyObj: PharmacyX = PharmacyX(0, "", "", "", "", "", "", "")
     private var shiftObj: ShiftX = ShiftX(0, "", "", pharmacyObj)
-    private var shiftsList = listOf(shiftObj)
+    private var shiftsList = arrayListOf(shiftObj)
     private val shiftResponseObj: ShiftResponse = ShiftResponse(shift = shiftsList)
     private var day = ""
     private var month = ""
     private var year = ""
     private var hour = ""
     private var minutes = ""
+    private var city = ""
 
     private val permissionsRequestCode = 123
     private lateinit var managePermissions: ManagePermissions
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 //                    .setAction("Action", null).show()
 //        }
 
+        setCity()
         getTodayData()
     }
 
@@ -74,8 +77,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setCity() {
+        city = "Salto, Buenos Aires, Argentina"
+    }
+
     private fun getExtraMsg() {
         cardView_msg.visibility = GONE
+    }
+
+    private fun openMultipleView(shifts: ArrayList<ShiftX>) {
+        val intent = Intent(this@MainActivity, MainActivityMulti::class.java)
+        intent.putParcelableArrayListExtra("shifts", shifts)
+        intent.putExtra("city", city)
+        startActivity(intent)
+        finish()
     }
 
     private fun getTodayData() {
@@ -84,14 +99,14 @@ class MainActivity : AppCompatActivity() {
         call.enqueue(object : Callback<ShiftResponse> {
             override fun onResponse(call: Call<ShiftResponse>, response: Response<ShiftResponse>) {
                 if (response.isSuccessful) {
-                    val shifts: List<ShiftX> = response.body()?.shift!!
+                    val shifts: ArrayList<ShiftX> = response.body()?.shift!!
                     if (shifts.isNotEmpty()) {
                         // Multiple shifts day
                         if (shifts.size > 1) {
-
+                            openMultipleView(shifts)
                         } else {
                             setContentView(R.layout.activity_main)
-                            pharmacy_city.text = "Salto, Buenos Aires, Argentina"
+                            pharmacy_city.text = city
 
                             // TODO: use "?" to check if value comes from service
                             pharmacyObj = shifts[0].pharmacy
@@ -136,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         call.enqueue(object : Callback<ShiftResponse> {
             override fun onResponse(call: Call<ShiftResponse>, response: Response<ShiftResponse>) {
                 if (response.isSuccessful) {
-                    val shifts: List<ShiftX> = response.body()?.shift!!
+                    val shifts: ArrayList<ShiftX> = response.body()?.shift!!
                     if (shifts.isNotEmpty()) {
                         pharmacy_name_tomorrow.text = shifts[0].pharmacy.name
                     } else {

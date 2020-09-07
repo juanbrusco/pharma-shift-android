@@ -14,3 +14,6 @@ used* <https://github.com/medyo/Fancybuttons>
 <https://androideverywhere.com/tutorial/rounded-button-in-android-studio#:~:text=Create%20beautiful%20buttons%20in%20XML,New%20then%20Drawable%20resource%20file%20.>       
 <https://dev.to/mgazar_/beautiful-android-rounded-buttons-1ea7>     
 
+#### RecyclerView       
+<https://medium.com/@nhkarthick/recyclerview-and-cardview-implementation-in-android-kotlin-f5a0d0a437c7>
+
