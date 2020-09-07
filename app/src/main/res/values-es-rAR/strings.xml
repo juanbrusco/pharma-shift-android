@@ -25,4 +25,16 @@
     <string name="Important_information">Información importante</string>
     <string name="refresh_description">Actualizar</string>
     <string name="title_activity_main_multi">MainActivityMulti</string>
+    <string name="sunday">Domingo</string>
+    <string name="monday">Lunes</string>
+    <string name="tuesday">Martes</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="thursday">Jueves</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sábado</string>
+    <string name="date_to">"Hasta el "</string>
+    <string name="time_to">" a las "</string>
+    <string name="date_error">Error con manejo de fechas</string>
+    <string name="denied">Permiso denegado</string>
+    <string name="granted">Permiso otorgado</string>
 </resources>

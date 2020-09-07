@@ -25,4 +25,16 @@
     <string name="Important_information">Important information</string>
     <string name="refresh_description">Refresh</string>
     <string name="title_activity_main_multi">MainActivityMulti</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="date_to">"To "</string>
+    <string name="time_to">at</string>
+    <string name="date_error">Date error</string>
+    <string name="granted">Permission granted</string>
+    <string name="denied">Permission denied</string>
 </resources>

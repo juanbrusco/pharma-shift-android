@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
@@ -15,15 +16,17 @@ import com.example.pharmacyarg.model.entities.PharmacyX
 import com.example.pharmacyarg.model.entities.ShiftResponse
 import com.example.pharmacyarg.model.entities.ShiftX
 import com.example.pharmacyarg.utils.ManagePermissions
+import com.example.pharmacyarg.utils.Utils
 import kotlinx.android.synthetic.main.content_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +41,8 @@ class MainActivity : AppCompatActivity() {
     private var hour = ""
     private var minutes = ""
     private var city = ""
+
+    private lateinit var utils: Utils
 
     private val permissionsRequestCode = 123
     private lateinit var managePermissions: ManagePermissions
@@ -78,10 +83,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCity() {
+        // TODO: handle city dinamically
         city = "Salto, Buenos Aires, Argentina"
     }
 
     private fun getExtraMsg() {
+        // TODO: call api to get extra msg
         cardView_msg.visibility = GONE
     }
 
@@ -110,8 +117,13 @@ class MainActivity : AppCompatActivity() {
 
                             // TODO: use "?" to check if value comes from service
                             pharmacyObj = shifts[0].pharmacy
+
+                            utils = Utils(this@MainActivity)
+                            var parsedDate =
+                                utils.parseDate(shifts[0].date_to.toString(), this@MainActivity)
+
                             pharmacy_name.text = shifts[0].pharmacy.name
-                            pharmacy_date_to.text = shifts[0].date_from
+                            pharmacy_date_to.text = parsedDate
                             pharmacy_address.text = shifts[0].pharmacy.address
                             pharmacy_phone.text = shifts[0].pharmacy.phone
 
@@ -127,6 +139,8 @@ class MainActivity : AppCompatActivity() {
                         button_call.visibility = GONE
                         button_address.visibility = GONE
                         button_share.visibility = GONE
+                        pharmacy_name_tomorrow.text = ""
+                        cardView_tomorrow.visibility = GONE
                     }
 
                 } else {
@@ -153,11 +167,12 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val shifts: ArrayList<ShiftX> = response.body()?.shift!!
                     if (shifts.isNotEmpty()) {
+                        // TODO: handle empty value (?)
                         pharmacy_name_tomorrow.text = shifts[0].pharmacy.name
                     } else {
                         pharmacy_name_tomorrow.text = ""
+                        cardView_tomorrow.visibility = GONE
                     }
-
                 } else {
                     displayMainError(this@MainActivity.getString(R.string.response_error))
                 }
@@ -198,10 +213,13 @@ class MainActivity : AppCompatActivity() {
                 val isPermissionsGranted = managePermissions
                     .processPermissionsResult(requestCode, permissions, grantResults)
                 if (isPermissionsGranted) {
-                    Toast.makeText(this, "GRANTED", Toast.LENGTH_SHORT).show()
                     //TODO: open geolocation activity
                 } else {
-                    Toast.makeText(this, "DENIED", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        this@MainActivity.getString(R.string.denied),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 return
             }
@@ -210,38 +228,60 @@ class MainActivity : AppCompatActivity() {
 
     private fun getCurrentDay() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val zonedDateTime: ZonedDateTime = LocalDateTime.now().atZone(ZoneId.systemDefault())
-            day = zonedDateTime.dayOfMonth.toString()
-            month = zonedDateTime.monthValue.toString()
-            year = zonedDateTime.year.toString()
-            hour = zonedDateTime.hour.toString()
-            minutes = zonedDateTime.minute.toString()
+            try {
+                val zonedDateTime: ZonedDateTime =
+                    LocalDateTime.now().atZone(ZoneId.systemDefault())
+                day = zonedDateTime.dayOfMonth.toString()
+                month = zonedDateTime.monthValue.toString()
+                year = zonedDateTime.year.toString()
+                hour = zonedDateTime.hour.toString()
+                minutes = zonedDateTime.minute.toString()
+            } catch (e: Exception) {
+                Log.e("getCurrentDay error", e.toString())
+                displayMainError(this@MainActivity.getString(R.string.date_error))
+            }
         } else {
-            val calendar = GregorianCalendar()
-            calendar.timeZone = TimeZone.getDefault()
-            day = calendar[Calendar.DATE].toString()
-            month = (calendar[Calendar.MONTH] + 1).toString()
-            year = calendar[Calendar.YEAR].toString()
-            hour = calendar[Calendar.HOUR].toString()
-            minutes = calendar[Calendar.MINUTE].toString()
+            try {
+                val calendar = GregorianCalendar()
+                calendar.timeZone = TimeZone.getDefault()
+                day = calendar[Calendar.DATE].toString()
+                month = (calendar[Calendar.MONTH] + 1).toString()
+                year = calendar[Calendar.YEAR].toString()
+                hour = calendar[Calendar.HOUR].toString()
+                minutes = calendar[Calendar.MINUTE].toString()
+            } catch (e: Exception) {
+                Log.e("getCurrentDay error", e.toString())
+                displayMainError(this@MainActivity.getString(R.string.date_error))
+            }
         }
     }
 
     private fun getNextDay(): Map<String, String> {
         var dateInfo = mutableMapOf("day" to "", "month" to "", "year" to "")
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val zonedDateTime: ZonedDateTime = LocalDateTime.now().atZone(ZoneId.systemDefault())
-            val nextZonedDateTime: ZonedDateTime = zonedDateTime.plusDays(1)
-            dateInfo["day"] = nextZonedDateTime.dayOfMonth.toString()
-            dateInfo["month"] = nextZonedDateTime.monthValue.toString()
-            dateInfo["year"] = nextZonedDateTime.year.toString()
+            try {
+                val zonedDateTime: ZonedDateTime =
+                    LocalDateTime.now().atZone(ZoneId.systemDefault())
+                val nextZonedDateTime: ZonedDateTime = zonedDateTime.plusDays(1)
+                dateInfo["day"] = nextZonedDateTime.dayOfMonth.toString()
+                dateInfo["month"] = nextZonedDateTime.monthValue.toString()
+                dateInfo["year"] = nextZonedDateTime.year.toString()
+            } catch (e: Exception) {
+                Log.e("getNextDay error", e.toString())
+                displayMainError(this@MainActivity.getString(R.string.date_error))
+            }
         } else {
-            var calendar = GregorianCalendar()
-            calendar.timeZone = TimeZone.getDefault()
-            calendar.add(Calendar.DATE, 1)
-            dateInfo["day"] = calendar[Calendar.DATE].toString()
-            dateInfo["month"] = (calendar[Calendar.MONTH] + 1).toString()
-            dateInfo["year"] = calendar[Calendar.YEAR].toString()
+            try {
+                var calendar = GregorianCalendar()
+                calendar.timeZone = TimeZone.getDefault()
+                calendar.add(Calendar.DATE, 1)
+                dateInfo["day"] = calendar[Calendar.DATE].toString()
+                dateInfo["month"] = (calendar[Calendar.MONTH] + 1).toString()
+                dateInfo["year"] = calendar[Calendar.YEAR].toString()
+            } catch (e: Exception) {
+                Log.e("getNextDay error", e.toString())
+                displayMainError(this@MainActivity.getString(R.string.date_error))
+            }
         }
         return dateInfo;
     }

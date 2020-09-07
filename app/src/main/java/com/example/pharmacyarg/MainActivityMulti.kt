@@ -1,5 +1,6 @@
 package com.example.pharmacyarg
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -15,6 +16,7 @@ import com.example.pharmacyarg.model.entities.ShiftResponse
 import com.example.pharmacyarg.model.entities.ShiftX
 import com.example.pharmacyarg.utils.ManagePermissions
 import com.example.pharmacyarg.utils.MultipleShiftsAdapter
+import com.example.pharmacyarg.utils.Utils
 import kotlinx.android.synthetic.main.activity_main_multi.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.content_main_multi.*
@@ -22,19 +24,13 @@ import kotlinx.android.synthetic.main.content_main_multi.view.*
 
 class MainActivityMulti : AppCompatActivity() {
 
-    private var pharmacyObj: PharmacyX = PharmacyX(0, "", "", "", "", "", "", "")
-    private var shiftObj: ShiftX = ShiftX(0, "", "", pharmacyObj)
-    private var shiftsList = arrayListOf(shiftObj)
-    private val shiftResponseObj: ShiftResponse = ShiftResponse(shift = shiftsList)
-    private var day = ""
-    private var month = ""
-    private var year = ""
-    private var hour = ""
-    private var minutes = ""
+    private lateinit var shiftsList: ArrayList<ShiftX>
     private var city = ""
 
     private val permissionsRequestCode = 123
     private lateinit var managePermissions: ManagePermissions
+
+    private lateinit var utils: Utils
 
     private lateinit var linearLayoutManager: LinearLayoutManager
 
@@ -47,16 +43,29 @@ class MainActivityMulti : AppCompatActivity() {
 
         linearLayoutManager = LinearLayoutManager(this)
 
+        populateView()
+
+        button_refresh_multiple?.setOnClickListener {
+            val i = Intent(this@MainActivityMulti, MainActivity::class.java)
+            finish()
+            overridePendingTransition(0, 0)
+            startActivity(i)
+            overridePendingTransition(0, 0)
+        }
+
+    }
+
+    private fun populateView() {
+        pharmacy_city_multiple.text = city
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = linearLayoutManager
 
         val rvAdapter = MultipleShiftsAdapter(shiftsList)
         recyclerView.adapter = rvAdapter;
-        getExtraMsg()
-        pharmacy_city_multiple.text = city
-
         recyclerView.setFocusable(false);
 
+        getExtraMsg()
     }
 
     private fun getExtraMsg() {
