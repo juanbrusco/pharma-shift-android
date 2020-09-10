@@ -12,9 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pharmacyarg.model.api.ApiService
 import com.example.pharmacyarg.model.api.RetrofitClient
-import com.example.pharmacyarg.model.entities.PharmacyX
-import com.example.pharmacyarg.model.entities.ShiftResponse
-import com.example.pharmacyarg.model.entities.ShiftX
+import com.example.pharmacyarg.model.entities.*
 import com.example.pharmacyarg.utils.ManagePermissions
 import com.example.pharmacyarg.utils.Utils
 import kotlinx.android.synthetic.main.content_main.*
@@ -31,16 +29,26 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var pharmacyObj: PharmacyX = PharmacyX(0, "", "", "", "", "", "", "")
-    private var shiftObj: ShiftX = ShiftX(0, "", "", pharmacyObj)
+    private var cityObj: CityX = CityX(0, "", "", "")
+    private var citiesList = arrayListOf(cityObj)
+
+    private var pharmacyObj: PharmacyX = PharmacyX(0, "", "", "", "", "", "", cityObj)
+    private var profileObj: ProfileX = ProfileX(cityObj)
+    private var userObj: UserX = UserX("", "", "", "", profileObj)
+
+    private var shiftObj: ShiftX = ShiftX(0, "", "", pharmacyObj, cityObj, userObj)
     private var shiftsList = arrayListOf(shiftObj)
     private val shiftResponseObj: ShiftResponse = ShiftResponse(shift = shiftsList)
+
     private var day = ""
     private var month = ""
     private var year = ""
     private var hour = ""
     private var minutes = ""
-    private var city = ""
+
+    private var APP_CITY = "Salto"
+    private var CITY = ""
+    private var CITY_ID = 0
 
     private lateinit var utils: Utils
 
@@ -58,8 +66,7 @@ class MainActivity : AppCompatActivity() {
 //                    .setAction("Action", null).show()
 //        }
 
-        setCity()
-        getTodayData()
+        getCities()
     }
 
     private fun prepareSimpleScreenButtons() {
@@ -82,9 +89,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setCity() {
-        // TODO: handle city dinamically
-        city = "Salto, Buenos Aires, Argentina"
+    private fun getCities() {
+        val request = RetrofitClient.buildService(ApiService::class.java)
+        val call = request.getCities()
+        call.enqueue(object : Callback<CityResponse> {
+            override fun onResponse(call: Call<CityResponse>, response: Response<CityResponse>) {
+                if (response.isSuccessful) {
+                    citiesList = response.body()?.cities!!
+                    if (citiesList.size > 0) {
+                        val filteredCity: CityX? = citiesList.find { it.name!!.contains(APP_CITY) }
+                        if (filteredCity !== null) {
+                            CITY =
+                                filteredCity.name + ", " + filteredCity.province_state!! + ", " + filteredCity.country!!
+                            CITY_ID = filteredCity.id
+                        }
+                        getTodayData()
+                    }
+                } else {
+                    displayMainError(this@MainActivity.getString(R.string.response_error))
+                }
+            }
+
+            override fun onFailure(call: Call<CityResponse>, t: Throwable) {
+                displayMainError(this@MainActivity.getString(R.string.request_error))
+            }
+        })
     }
 
     private fun getExtraMsg() {
@@ -95,14 +124,14 @@ class MainActivity : AppCompatActivity() {
     private fun openMultipleView(shifts: ArrayList<ShiftX>) {
         val intent = Intent(this@MainActivity, MainActivityMulti::class.java)
         intent.putParcelableArrayListExtra("shifts", shifts)
-        intent.putExtra("city", city)
+        intent.putExtra("city", CITY)
         startActivity(intent)
         finish()
     }
 
     private fun getTodayData() {
         val request = RetrofitClient.buildService(ApiService::class.java)
-        val call = request.getShift()
+        val call = request.getShift(CITY_ID)
         call.enqueue(object : Callback<ShiftResponse> {
             override fun onResponse(call: Call<ShiftResponse>, response: Response<ShiftResponse>) {
                 if (response.isSuccessful) {
@@ -113,7 +142,7 @@ class MainActivity : AppCompatActivity() {
                             openMultipleView(shifts)
                         } else {
                             setContentView(R.layout.activity_main)
-                            pharmacy_city.text = city
+                            pharmacy_city.text = CITY
 
                             // TODO: use "?" to check if value comes from service
                             pharmacyObj = shifts[0].pharmacy
@@ -160,7 +189,8 @@ class MainActivity : AppCompatActivity() {
         val call = request.getShiftByDay(
             nextDay["day"].toString(),
             nextDay["month"].toString(),
-            nextDay["year"].toString()
+            nextDay["year"].toString(),
+            CITY_ID
         )
         call.enqueue(object : Callback<ShiftResponse> {
             override fun onResponse(call: Call<ShiftResponse>, response: Response<ShiftResponse>) {
@@ -283,7 +313,7 @@ class MainActivity : AppCompatActivity() {
                 displayMainError(this@MainActivity.getString(R.string.date_error))
             }
         }
-        return dateInfo;
+        return dateInfo
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

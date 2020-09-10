@@ -25,7 +25,7 @@ class ManagePermissions(val activity: Activity, val list: List<String>, val code
     private fun isPermissionsGranted(): Int {
         // PERMISSION_GRANTED : Constant Value: 0
         // PERMISSION_DENIED : Constant Value: -1
-        var counter = 0;
+        var counter = 0
         for (permission in list) {
             counter += ContextCompat.checkSelfPermission(activity, permission)
         }

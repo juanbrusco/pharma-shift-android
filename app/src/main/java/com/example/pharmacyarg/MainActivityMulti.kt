@@ -62,8 +62,8 @@ class MainActivityMulti : AppCompatActivity() {
         recyclerView.layoutManager = linearLayoutManager
 
         val rvAdapter = MultipleShiftsAdapter(shiftsList)
-        recyclerView.adapter = rvAdapter;
-        recyclerView.setFocusable(false);
+        recyclerView.adapter = rvAdapter
+        recyclerView.isFocusable = false
 
         getExtraMsg()
     }

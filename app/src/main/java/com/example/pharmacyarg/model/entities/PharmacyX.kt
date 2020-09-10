@@ -10,8 +10,6 @@ data class PharmacyX(
     val id: Int,
     @SerializedName("address")
     val address: String?,
-    @SerializedName("city")
-    val city: String?,
     @SerializedName("name")
     val name: String?,
     @SerializedName("phone")
@@ -21,5 +19,7 @@ data class PharmacyX(
     @SerializedName("long")
     val long: String?,
     @SerializedName("alt")
-    val alt: String?
+    val alt: String?,
+    @SerializedName("city")
+    val city: CityX
 ) : Parcelable

@@ -16,6 +16,10 @@ data class ShiftX(
     @SerializedName("date_to")
     val date_to: String?,
     @SerializedName("pharmacy")
-    val pharmacy: PharmacyX
+    val pharmacy: PharmacyX,
+    @SerializedName("city_shift")
+    val city_shift: CityX,
+    @SerializedName("added_by")
+    val added_by: UserX
 ) : Parcelable, Serializable
 

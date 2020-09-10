@@ -16,8 +16,8 @@ class MultipleShiftsAdapter(val shifts: ArrayList<ShiftX>) :
     RecyclerView.Adapter<MultipleShiftsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val v =
-            LayoutInflater.from(p0?.context).inflate(R.layout.adapter_multiple_shifts, p0, false)
-        return ViewHolder(v);
+            LayoutInflater.from(p0.context).inflate(R.layout.adapter_multiple_shifts, p0, false)
+        return ViewHolder(v)
     }
 
     override fun getItemCount(): Int {

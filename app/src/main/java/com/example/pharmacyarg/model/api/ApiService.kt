@@ -1,5 +1,6 @@
 package com.example.pharmacyarg.model.api
 
+import com.example.pharmacyarg.model.entities.CityResponse
 import com.example.pharmacyarg.model.entities.ShiftResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -13,9 +14,15 @@ interface ApiService {
     fun getShiftByDay(
         @Query("day") day: String,
         @Query("month") month: String,
-        @Query("year") year: String
+        @Query("year") year: String,
+        @Query("city") city: Int,
     ): Call<ShiftResponse>
 
     @GET("get_shift")
-    fun getShift(): Call<ShiftResponse>
+    fun getShift(
+        @Query("city_id") city: Int,
+    ): Call<ShiftResponse>
+
+    @GET("get_cities")
+    fun getCities(): Call<CityResponse>
 }
