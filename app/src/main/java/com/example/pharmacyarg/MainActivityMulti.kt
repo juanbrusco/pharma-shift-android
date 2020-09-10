@@ -9,6 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pharmacyarg.model.entities.PharmacyX
@@ -36,10 +37,16 @@ class MainActivityMulti : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_multi)
 
         shiftsList = intent.getParcelableArrayListExtra<ShiftX>("shifts")
         city = intent.getStringExtra("city")
+        utils = Utils(this@MainActivityMulti)
+
+        for (s in shiftsList) {
+            s.date_to = utils.parseDate(s.date_to.toString(), this@MainActivityMulti)
+        }
+
+        setContentView(R.layout.activity_main_multi)
 
         linearLayoutManager = LinearLayoutManager(this)
 

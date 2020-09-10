@@ -2,12 +2,14 @@ package com.example.pharmacyarg
 
 import android.Manifest
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pharmacyarg.model.api.ApiService
@@ -19,8 +21,6 @@ import kotlinx.android.synthetic.main.content_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var utils: Utils
 
     private val permissionsRequestCode = 123
+    private val permissionsRequestCodeCall = 42
     private lateinit var managePermissions: ManagePermissions
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun prepareSimpleScreenButtons() {
         button_call?.setOnClickListener {
+            requestCallPermission()
         }
 
         button_address?.setOnClickListener {
@@ -78,6 +80,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_share?.setOnClickListener {
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.putExtra(
+                Intent.EXTRA_TEXT,
+                this@MainActivity.getString(R.string.share_msg) + pharmacyObj.name + " / " + pharmacyObj.address + " / " + pharmacyObj.phone
+            )
+            intent.type = "text/plain"
+            startActivity(
+                Intent.createChooser(
+                    intent,
+                    this@MainActivity.getString(R.string.share_title)
+                )
+            )
         }
 
         button_refresh?.setOnClickListener {
@@ -118,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getExtraMsg() {
         // TODO: call api to get extra msg
-        cardView_msg.visibility = GONE
+//        cardView_msg.visibility = VISIBLE
     }
 
     private fun openMultipleView(shifts: ArrayList<ShiftX>) {
@@ -222,6 +237,25 @@ class MainActivity : AppCompatActivity() {
         ).show()
     }
 
+    private fun requestCallPermission() {
+        val list = listOf<String>(
+            Manifest.permission.CALL_PHONE
+        )
+        managePermissions = ManagePermissions(this, list, permissionsRequestCodeCall)
+        // If version is lower than M, permissions are accepted on app installation
+        var granted = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            granted = managePermissions.checkCallPermission()
+        if (granted) {
+            try {
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + pharmacyObj.phone))
+                startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     private fun requestGeoPermission() {
         // Initialize a list of required permissions to request runtime
         val list = listOf<String>(
@@ -230,6 +264,7 @@ class MainActivity : AppCompatActivity() {
         )
         // Initialize a new instance of ManagePermissions class
         managePermissions = ManagePermissions(this, list, permissionsRequestCode)
+        // If version is lower than M, permissions are accepted on app installation
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             managePermissions.checkPermissions()
     }

@@ -1,17 +1,40 @@
 package com.example.pharmacyarg.utils
 
+import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.example.pharmacyarg.R
 
 /**
  * Created by juanbrusco on 02/09/2020.
  */
 class ManagePermissions(val activity: Activity, val list: List<String>, val code: Int) {
+
+    fun checkCallPermission(): Boolean {
+        if (ContextCompat.checkSelfPermission(
+                activity,
+                list[0]
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(list[0]),
+                code
+            )
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     // Check permissions at runtime
     fun checkPermissions() {
@@ -60,14 +83,7 @@ class ManagePermissions(val activity: Activity, val list: List<String>, val code
     // Request the permissions at run time
     private fun requestPermissions() {
         val permission = deniedPermission()
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
-            Toast.makeText(
-                activity.applicationContext,
-                activity.applicationContext.getString(R.string.permission_request),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        } else {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
             ActivityCompat.requestPermissions(activity, list.toTypedArray(), code)
         }
     }

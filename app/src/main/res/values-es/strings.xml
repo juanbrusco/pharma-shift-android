@@ -5,7 +5,7 @@
     <string name="next">Siguiente</string>
     <string name="second_fragment_label">Segundo Fragmento</string>
     <string name="first_fragment_label">Primer Fragmento</string>
-    <string name="permission_justification">Permiso requerido para continuar</string>
+    <string name="permission_justification">Permiso requerido para continuar. Habilitarlo en Configuración del dispositivo.</string>
     <string name="ok">Ok</string>
     <string name="api_url">https://pharmacy-admin-arg.herokuapp.com/api/</string>
     <string name="pharmacy_icon_description">Icono de farmacia</string>
@@ -37,4 +37,6 @@
     <string name="date_error">Error con manejo de fechas</string>
     <string name="granted">Permiso otorgado</string>
     <string name="denied">Permiso denegado</string>
+    <string name="share_msg">"Hoy de turno: "</string>
+    <string name="share_title">Compartir</string>
 </resources>

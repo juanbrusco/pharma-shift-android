@@ -37,4 +37,6 @@
     <string name="date_error">Date error</string>
     <string name="granted">Permission granted</string>
     <string name="denied">Permission denied</string>
+    <string name="share_msg">"Today's shift: "</string>
+    <string name="share_title">Share</string>
 </resources>

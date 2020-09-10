@@ -14,7 +14,7 @@ data class ShiftX(
     @SerializedName("date_from")
     val date_from: String?,
     @SerializedName("date_to")
-    val date_to: String?,
+    var date_to: String?,
     @SerializedName("pharmacy")
     val pharmacy: PharmacyX,
     @SerializedName("city_shift")
