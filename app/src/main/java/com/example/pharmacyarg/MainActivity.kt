@@ -241,11 +241,17 @@ class MainActivity : AppCompatActivity() {
         val list = listOf<String>(
             Manifest.permission.CALL_PHONE
         )
-        managePermissions = ManagePermissions(this, list, permissionsRequestCodeCall)
+        managePermissions = ManagePermissions(this)
         // If version is lower than M, permissions are accepted on app installation
         var granted = true
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            granted = managePermissions.checkCallPermission()
+            if (!managePermissions.Check_CALL(this@MainActivity)) {
+                granted = false
+                managePermissions.Request_CALL(this@MainActivity, permissionsRequestCodeCall);
+            } else {
+                granted = true
+            }
+
         if (granted) {
             try {
                 val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + pharmacyObj.phone))
@@ -257,36 +263,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestGeoPermission() {
-        // Initialize a list of required permissions to request runtime
-        val list = listOf<String>(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-        )
-        // Initialize a new instance of ManagePermissions class
-        managePermissions = ManagePermissions(this, list, permissionsRequestCode)
+        var parsedGeo = ""
+        if (pharmacyObj.lat!!.isEmpty() || pharmacyObj.long!!.isEmpty()) {
+            parsedGeo =
+                "geo:0,0?q=" + Uri.encode(pharmacyObj.address + "," + pharmacyObj.city.name + "," + pharmacyObj.city.province_state)
+        } else {
+            parsedGeo = "geo:0,0?q=" + pharmacyObj.lat + "," + pharmacyObj.long + "?z=21"
+        }
+        managePermissions = ManagePermissions(this)
         // If version is lower than M, permissions are accepted on app installation
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            managePermissions.checkPermissions()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            permissionsRequestCode -> {
-                val isPermissionsGranted = managePermissions
-                    .processPermissionsResult(requestCode, permissions, grantResults)
-                if (isPermissionsGranted) {
-                    //TODO: open geolocation activity
-                } else {
-                    Toast.makeText(
-                        this,
-                        this@MainActivity.getString(R.string.denied),
-                        Toast.LENGTH_SHORT
-                    ).show()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!managePermissions.Check_FINE_LOCATION(this@MainActivity)) {
+                managePermissions.Request_FINE_LOCATION(this@MainActivity, permissionsRequestCode);
+            } else if (!managePermissions.Check_COARSE_LOCATION(this@MainActivity)) {
+                managePermissions.Request_COARSE_LOCATION(
+                    this@MainActivity,
+                    permissionsRequestCode
+                );
+            } else {
+                // open geolocation activity
+                val gmmIntentUri = Uri.parse(parsedGeo)
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                mapIntent.resolveActivity(packageManager)?.let {
+                    startActivity(mapIntent)
                 }
-                return
+            }
+        } else {
+            // open geolocation activity
+            val gmmIntentUri = Uri.parse(parsedGeo)
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            mapIntent.resolveActivity(packageManager)?.let {
+                startActivity(mapIntent)
             }
         }
     }
