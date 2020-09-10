@@ -60,6 +60,9 @@ class MainActivityMulti : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
+        button_information?.setOnClickListener {
+        }
+
     }
 
     private fun populateView() {

@@ -15,17 +15,28 @@
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteY="1dp">
 
-        <!--    <fragment-->
-        <!--        android:id="@+id/nav_host_fragment"-->
-        <!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
-        <!--        android:layout_width="0dp"-->
-        <!--        android:layout_height="0dp"-->
-        <!--        app:defaultNavHost="true"-->
-        <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--        app:layout_constraintRight_toRightOf="parent"-->
-        <!--        app:layout_constraintTop_toTopOf="parent"-->
-        <!--        app:navGraph="@navigation/nav_graph" />-->
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/button_information"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:contentDescription="@string/info_description"
+            android:focusable="true"
+            android:padding="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            fancy:fb_defaultColor="#00009688"
+            fancy:fb_focusColor="@color/colorAccent"
+            fancy:fb_fontIconResource="&#xf129;"
+            fancy:fb_fontIconSize="20dp"
+            fancy:fb_iconPaddingLeft="0dp"
+            fancy:fb_iconPaddingRight="0dp"
+            fancy:fb_iconPosition="right"
+            fancy:fb_radius="32dp"
+            fancy:fb_text=""
+            fancy:fb_textColor="#FFFFFF" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -283,14 +294,14 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="32dp"
             android:elevation="10dp"
+            android:visibility="gone"
             app:cardCornerRadius="5dp"
             app:cardElevation="1dp"
             app:contentPadding="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView_tomorrow"
-            android:visibility="gone">
+            app:layout_constraintTop_toBottomOf="@+id/cardView_tomorrow">
 
             <FrameLayout
                 android:layout_width="2dp"

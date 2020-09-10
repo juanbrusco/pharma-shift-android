@@ -39,4 +39,5 @@
     <string name="denied">Permission denied</string>
     <string name="share_msg">"Today's shift: "</string>
     <string name="share_title">Share</string>
+    <string name="info_description">Information</string>
 </resources>

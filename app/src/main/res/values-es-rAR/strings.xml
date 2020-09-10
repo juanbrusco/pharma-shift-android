@@ -39,4 +39,5 @@
     <string name="granted">Permiso otorgado</string>
     <string name="share_msg">"Hoy de turno: "</string>
     <string name="share_title">Compartir</string>
+    <string name="info_description">Información</string>
 </resources>
