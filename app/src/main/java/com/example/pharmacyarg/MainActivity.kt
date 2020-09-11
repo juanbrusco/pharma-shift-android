@@ -1,5 +1,6 @@
 package com.example.pharmacyarg
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -98,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getTodayData() {
-        var params = today
+        val params = today
 //        if ((today["hour"] ?: error("")).toInt() < HOUR_LIMIT) {
 //            params = yesterday
 //        } else if ((today["hour"] ?: error("")).toInt() == HOUR_LIMIT && (today["minutes"] ?: error(
@@ -123,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                     if (shifts.isNotEmpty()) {
                         // Multiple shifts day
                         if (shifts.size > 1) {
-                            openMultipleView(shifts)
+                            openMultipleViewWithMsg(shifts)
                         } else {
                             setContentView(R.layout.activity_main)
                             pharmacy_city.text = CITY
@@ -207,12 +208,8 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun openMultipleView(shifts: ArrayList<ShiftX>) {
-        val intent = Intent(this@MainActivity, MainActivityMulti::class.java)
-        intent.putParcelableArrayListExtra("shifts", shifts)
-        intent.putExtra("city", CITY)
-        startActivity(intent)
-        finish()
+    private fun openMultipleViewWithMsg(shifts: ArrayList<ShiftX>) {
+        getExtraMsg(shifts, true)
     }
 
     private fun prepareSimpleScreenButtons() {
@@ -245,21 +242,61 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_information?.setOnClickListener {
-            val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogCustom))
-            with(builder)
-            {
-                setTitle(this@MainActivity.getString(R.string.info_description))
-                setMessage(this@MainActivity.getString(R.string.app_description))
-                setPositiveButton(this@MainActivity.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-                show()
-            }
+            utils.displayInformationPopup()
         }
     }
 
 
-    private fun getExtraMsg() {
-        // TODO: call api to get extra msg
-        //cardView_msg.visibility = VISIBLE
+    private fun getExtraMsg(
+        shifts: ArrayList<ShiftX> = arrayListOf(),
+        openMultipleVIew: Boolean = false
+    ) {
+        val request = RetrofitClient.buildService(ApiService::class.java)
+        val call = request.getExtras(
+            today["day"].toString(),
+            today["month"].toString(),
+            today["year"].toString(),
+            CITY_ID
+        )
+        call.enqueue(object : Callback<ExtrasResponse> {
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(
+                call: Call<ExtrasResponse>,
+                response: Response<ExtrasResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val extras: ArrayList<ExtrasX> = response.body()?.extras!!
+                    if (openMultipleVIew) {
+                        val intent = Intent(this@MainActivity, MainActivityMulti::class.java)
+                        intent.putParcelableArrayListExtra("shifts", shifts)
+                        intent.putParcelableArrayListExtra("extras", extras)
+                        intent.putExtra("city", CITY)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        if (extras.isNotEmpty()) {
+                            cardView_msg.visibility = VISIBLE
+                            var msg = ""
+                            for (ex in extras) {
+                                msg = msg + " " + ex.msg + "\n"
+                            }
+                            important_msg.text = msg.dropLast(1)
+                        } else {
+                            cardView_msg.visibility = GONE
+                            important_msg.text = ""
+                        }
+                    }
+                } else {
+                    displayAlterError(this@MainActivity.getString(R.string.response_error))
+                    Log.i("getTomorrowData error", response.message())
+                }
+            }
+
+            override fun onFailure(call: Call<ExtrasResponse>, t: Throwable) {
+                displayAlterError(this@MainActivity.getString(R.string.request_error))
+                Log.i("getTomorrowData error", "onFailure")
+            }
+        })
     }
 
     private fun requestCallPermission() {

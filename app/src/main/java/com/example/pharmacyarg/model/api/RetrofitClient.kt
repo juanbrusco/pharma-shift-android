@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
 
     private const val BASE_URL = "https://pharmacy-admin-arg.herokuapp.com/api/"
-    private const val TOKEN = "5be1fcc07510db3da52774ef2211261a0eddaaab"
+    private const val TOKEN = "c4e29d70b83a005e821d4d29c12920ccfbfbd996"
 
     private const val AUTH =
         "Token $TOKEN"

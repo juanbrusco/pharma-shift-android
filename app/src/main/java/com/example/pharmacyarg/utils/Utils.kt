@@ -5,9 +5,18 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.pharmacyarg.R
+import com.example.pharmacyarg.model.api.ApiService
+import com.example.pharmacyarg.model.api.RetrofitClient
+import com.example.pharmacyarg.model.entities.ExtrasResponse
+import com.example.pharmacyarg.model.entities.ExtrasX
+import kotlinx.android.synthetic.main.content_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -122,6 +131,17 @@ class Utils(private val activity: Activity) {
         }
         Log.i("getDay", "($dayIndicator)getDay->$dateInfo")
         return dateInfo
+    }
+
+    fun displayInformationPopup() {
+        val builder = AlertDialog.Builder(ContextThemeWrapper(activity, R.style.AlertDialogCustom))
+        with(builder)
+        {
+            setTitle(activity.getString(R.string.info_description))
+            setMessage(activity.getString(R.string.app_description))
+            setPositiveButton(activity.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+            show()
+        }
     }
 
     private fun showToast(msg: String) {
