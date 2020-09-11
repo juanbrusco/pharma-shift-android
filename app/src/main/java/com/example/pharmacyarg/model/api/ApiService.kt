@@ -10,16 +10,13 @@ import retrofit2.http.Query
  * Created by juanbrusco on 02/09/2020.
  */
 interface ApiService {
-    @GET("get_shift?")
-    fun getShiftByDay(
+    @GET("get_shift")
+    fun getShift(
         @Query("day") day: String,
         @Query("month") month: String,
         @Query("year") year: String,
-        @Query("city") city: Int,
-    ): Call<ShiftResponse>
-
-    @GET("get_shift")
-    fun getShift(
+        @Query("hour") hour: String,
+        @Query("minutes") minutes: String,
         @Query("city_id") city: Int,
     ): Call<ShiftResponse>
 

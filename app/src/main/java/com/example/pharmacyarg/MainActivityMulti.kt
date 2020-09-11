@@ -3,36 +3,22 @@ package com.example.pharmacyarg
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pharmacyarg.model.entities.PharmacyX
-import com.example.pharmacyarg.model.entities.ShiftResponse
 import com.example.pharmacyarg.model.entities.ShiftX
-import com.example.pharmacyarg.utils.ManagePermissions
 import com.example.pharmacyarg.utils.MultipleShiftsAdapter
 import com.example.pharmacyarg.utils.Utils
 import kotlinx.android.synthetic.main.activity_main_multi.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.content_main_multi.*
-import kotlinx.android.synthetic.main.content_main_multi.view.*
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivityMulti : AppCompatActivity() {
 
     private lateinit var shiftsList: ArrayList<ShiftX>
     private var city = ""
 
-    private val permissionsRequestCode = 123
-    private lateinit var managePermissions: ManagePermissions
-
     private lateinit var utils: Utils
-
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {

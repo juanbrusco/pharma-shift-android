@@ -1,7 +1,5 @@
 package com.example.pharmacyarg
 
-import android.Manifest
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -12,7 +10,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pharmacyarg.model.api.ApiService
@@ -24,9 +21,6 @@ import kotlinx.android.synthetic.main.content_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.*
 
 
@@ -36,31 +30,26 @@ class MainActivity : AppCompatActivity() {
     private var citiesList = arrayListOf(cityObj)
 
     private var pharmacyObj: PharmacyX = PharmacyX(0, "", "", "", "", "", "", cityObj)
-    private var profileObj: ProfileX = ProfileX(cityObj)
-    private var userObj: UserX = UserX("", "", "", "", profileObj)
+//    private var profileObj: ProfileX = ProfileX(cityObj)
+//    private var userObj: UserX = UserX("", "", "", "", profileObj)
 
-    private var shiftObj: ShiftX = ShiftX(0, "", "", pharmacyObj, cityObj, userObj)
-    private var shiftsList = arrayListOf(shiftObj)
-    private val shiftResponseObj: ShiftResponse = ShiftResponse(shift = shiftsList)
+//    private var shiftObj: ShiftX = ShiftX(0, "", "", pharmacyObj, cityObj, userObj)
+//    private var shiftsList = arrayListOf(shiftObj)
+//    private val shiftResponseObj: ShiftResponse = ShiftResponse(shift = shiftsList)
 
-    private var day = ""
-    private var month = ""
-    private var year = ""
-    private var hour = ""
-    private var minutes = ""
-
-    private var APP_CITY = "Salto"
-
+    private val APP_CITY = "Salto"
     private var CITY = ""
     private var CITY_ID = 0
     private var HOUR_LIMIT = 8
     private var MINUTES_LIMIT = 30
 
     private lateinit var utils: Utils
-    var today: Map<String, String> =
+    private var today: Map<String, String> =
         mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
-    var tomorrow: Map<String, String> = mutableMapOf("day" to "", "month" to "", "year" to "")
-    var yesterday: Map<String, String> = mutableMapOf("day" to "", "month" to "", "year" to "")
+    private var tomorrow: Map<String, String> =
+        mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
+    private var yesterday: Map<String, String> =
+        mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
     private val permissionsRequestCode = 123
     private val permissionsRequestCodeCall = 42
     private lateinit var managePermissions: ManagePermissions
@@ -71,16 +60,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_progress)
 
-//        setSupportActionBar(findViewById(R.id.toolbar))
-//        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-//        }
-
         utils = Utils(this@MainActivity)
-        today = utils.getCurrentDay()
-        tomorrow = utils.getNextDay()
-        yesterday = utils.getPreviousDay()
+        today = utils.getDay(0)
+        tomorrow = utils.getDay(1)
+        yesterday = utils.getDay(-1)
         getCities()
     }
 
@@ -101,25 +84,37 @@ class MainActivity : AppCompatActivity() {
                         getTodayData()
                     }
                 } else {
-                    displayMainError(this@MainActivity.getString(R.string.response_error))
+                    displayAlterError(this@MainActivity.getString(R.string.response_error))
+                    Log.i("getCities error", response.message())
                 }
             }
 
             override fun onFailure(call: Call<CityResponse>, t: Throwable) {
-                displayMainError(this@MainActivity.getString(R.string.request_error))
+                displayAlterError(this@MainActivity.getString(R.string.request_error))
+                Log.i("getCities error", "onFailure")
             }
         })
     }
 
     private fun getTodayData() {
         var params = today
-        if (today["hour"]!!.toInt() < HOUR_LIMIT) {
+        if ((today["hour"] ?: error("")).toInt() < HOUR_LIMIT) {
             params = yesterday
-        } else if (today["hour"]!!.toInt() == HOUR_LIMIT && today["minutes"]!!.toInt() < HOUR_LIMIT) {
+        } else if ((today["hour"] ?: error("")).toInt() == HOUR_LIMIT && (today["minutes"] ?: error(
+                ""
+            )).toInt() < MINUTES_LIMIT
+        ) {
             params = yesterday
         }
         val request = RetrofitClient.buildService(ApiService::class.java)
-        val call = request.getShift(CITY_ID)
+        val call = request.getShift(
+            params["day"].toString(),
+            params["month"].toString(),
+            params["year"].toString(),
+            params["hour"].toString(),
+            params["minutes"].toString(),
+            CITY_ID
+        )
         call.enqueue(object : Callback<ShiftResponse> {
             override fun onResponse(call: Call<ShiftResponse>, response: Response<ShiftResponse>) {
                 if (response.isSuccessful) {
@@ -135,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                             // TODO: use "?" to check if value comes from service
                             pharmacyObj = shifts[0].pharmacy
 
-                            var parsedDate =
+                            val parsedDate =
                                 utils.parseDate(shifts[0].date_to.toString(), this@MainActivity)
 
                             pharmacy_name.text = shifts[0].pharmacy.name
@@ -160,22 +155,26 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 } else {
-                    displayMainError(this@MainActivity.getString(R.string.response_error))
+                    displayAlterError(this@MainActivity.getString(R.string.response_error))
+                    Log.i("getTodayData error", response.message())
                 }
             }
 
             override fun onFailure(call: Call<ShiftResponse>, t: Throwable) {
-                displayMainError(this@MainActivity.getString(R.string.request_error))
+                displayAlterError(this@MainActivity.getString(R.string.request_error))
+                Log.i("getTodayData error", "onFailure")
             }
         })
     }
 
     private fun getTomorrowData() {
         val request = RetrofitClient.buildService(ApiService::class.java)
-        val call = request.getShiftByDay(
+        val call = request.getShift(
             tomorrow["day"].toString(),
             tomorrow["month"].toString(),
             tomorrow["year"].toString(),
+            tomorrow["hour"].toString(),
+            tomorrow["minutes"].toString(),
             CITY_ID
         )
         call.enqueue(object : Callback<ShiftResponse> {
@@ -183,19 +182,21 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val shifts: ArrayList<ShiftX> = response.body()?.shift!!
                     if (shifts.isNotEmpty()) {
-                        // TODO: handle empty value (?)
                         pharmacy_name_tomorrow.text = shifts[0].pharmacy.name
+                        cardView_tomorrow.visibility = VISIBLE
                     } else {
                         pharmacy_name_tomorrow.text = ""
                         cardView_tomorrow.visibility = GONE
                     }
                 } else {
-                    displayMainError(this@MainActivity.getString(R.string.response_error))
+                    displayAlterError(this@MainActivity.getString(R.string.response_error))
+                    Log.i("getTomorrowData error", response.message())
                 }
             }
 
             override fun onFailure(call: Call<ShiftResponse>, t: Throwable) {
-                displayMainError(this@MainActivity.getString(R.string.request_error))
+                displayAlterError(this@MainActivity.getString(R.string.request_error))
+                Log.i("getTomorrowData error", "onFailure")
             }
         })
     }
@@ -234,11 +235,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_refresh?.setOnClickListener {
-            val i = Intent(this@MainActivity, MainActivity::class.java)
-            finish()
-            overridePendingTransition(0, 0)
-            startActivity(i)
-            overridePendingTransition(0, 0)
+            refreshActivity()
         }
 
         button_information?.setOnClickListener {
@@ -246,8 +243,8 @@ class MainActivity : AppCompatActivity() {
             with(builder)
             {
                 setTitle(this@MainActivity.getString(R.string.info_description))
-                setMessage("Aplicación para saber qué farmacia está de turno. \n \n Librerías open-source utilizadas: \n -Fancybuttons \n -Retrofit2 \n -Okhttp3 \n \n \n JAB-Salto.")
-                setPositiveButton(this@MainActivity.getString(R.string.ok)) { dialog, which -> }
+                setMessage(this@MainActivity.getString(R.string.app_description))
+                setPositiveButton(this@MainActivity.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
                 show()
             }
         }
@@ -256,20 +253,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun getExtraMsg() {
         // TODO: call api to get extra msg
-//        cardView_msg.visibility = VISIBLE
+        //cardView_msg.visibility = VISIBLE
     }
 
     private fun requestCallPermission() {
-        val list = listOf<String>(
-            Manifest.permission.CALL_PHONE
-        )
-        managePermissions = ManagePermissions(this)
+        managePermissions = ManagePermissions()
         // If version is lower than M, permissions are accepted on app installation
         var granted = true
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            if (!managePermissions.Check_CALL(this@MainActivity)) {
+            if (!managePermissions.checkCALL(this@MainActivity)) {
                 granted = false
-                managePermissions.Request_CALL(this@MainActivity, permissionsRequestCodeCall)
+                managePermissions.requestCALL(this@MainActivity, permissionsRequestCodeCall)
             } else {
                 granted = true
             }
@@ -285,20 +279,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestGeoPermission() {
-        var parsedGeo = ""
-        if (pharmacyObj.lat!!.isEmpty() || pharmacyObj.long!!.isEmpty()) {
-            parsedGeo =
-                "geo:0,0?q=" + Uri.encode(pharmacyObj.address + "," + pharmacyObj.city.name + "," + pharmacyObj.city.province_state)
-        } else {
+        var parsedGeo =
+            "geo:0,0?q=" + Uri.encode(pharmacyObj.address + "," + pharmacyObj.city.name + "," + pharmacyObj.city.province_state)
+        if (pharmacyObj.lat!!.isNotEmpty() || pharmacyObj.long!!.isNotEmpty()) {
             parsedGeo = "geo:0,0?q=" + pharmacyObj.lat + "," + pharmacyObj.long + "?z=21"
         }
-        managePermissions = ManagePermissions(this)
+        managePermissions = ManagePermissions()
         // If version is lower than M, permissions are accepted on app installation
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!managePermissions.Check_FINE_LOCATION(this@MainActivity)) {
-                managePermissions.Request_FINE_LOCATION(this@MainActivity, permissionsRequestCode)
-            } else if (!managePermissions.Check_COARSE_LOCATION(this@MainActivity)) {
-                managePermissions.Request_COARSE_LOCATION(
+            if (!managePermissions.checkFINELOCATION(this@MainActivity)) {
+                managePermissions.requestFINELOCATION(this@MainActivity, permissionsRequestCode)
+            } else if (!managePermissions.checkCOARSELOCATION(this@MainActivity)) {
+                managePermissions.requestCOARSELOCATION(
                     this@MainActivity,
                     permissionsRequestCode
                 )
@@ -322,12 +314,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayMainError(error: String) {
-        Toast.makeText(
-            this@MainActivity,
-            error,
-            Toast.LENGTH_SHORT
-        ).show()
+    private fun displayAlterError(error: String) {
+        val alertDialog =
+            AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogCustom)).create()
+        alertDialog.setTitle(this@MainActivity.getString(R.string.error_title))
+        alertDialog.setMessage(error)
+        alertDialog.setButton(
+            AlertDialog.BUTTON_POSITIVE, this@MainActivity.getString(R.string.retry)
+        ) { _, _ -> refreshActivity() }
+
+        alertDialog.setButton(
+            AlertDialog.BUTTON_NEGATIVE, this@MainActivity.getString(R.string.cancel)
+        ) { dialog, _ -> dialog.dismiss() }
+        alertDialog.show()
+    }
+
+    private fun refreshActivity() {
+        val i = Intent(this@MainActivity, MainActivity::class.java)
+        finish()
+        overridePendingTransition(0, 0)
+        startActivity(i)
+        overridePendingTransition(0, 0)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

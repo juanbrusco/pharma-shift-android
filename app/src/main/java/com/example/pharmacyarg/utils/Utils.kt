@@ -1,10 +1,12 @@
 package com.example.pharmacyarg.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import android.util.Log.VERBOSE
+import android.view.ContextThemeWrapper
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.pharmacyarg.R
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -18,6 +20,7 @@ import java.util.*
  * Created by juanbrusco on 07/09/2020.
  */
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class Utils(private val activity: Activity) {
 
     private val daysArray = arrayOf(
@@ -30,8 +33,9 @@ class Utils(private val activity: Activity) {
         activity.getString(R.string.saturday)
     )
 
+    @SuppressLint("SimpleDateFormat")
     fun parseDate(date: String, context: Context): String {
-        var parsedDate = mutableMapOf("day" to "", "date" to "", "time" to "")
+        val parsedDate = mutableMapOf("day" to "", "date" to "", "time" to "")
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             try {
                 val zonedDateTime: LocalDateTime =
@@ -39,24 +43,29 @@ class Utils(private val activity: Activity) {
                 parsedDate["day"] = daysArray[zonedDateTime.dayOfWeek.value]
                 parsedDate["date"] =
                     zonedDateTime.dayOfMonth.toString() + "/" + zonedDateTime.monthValue.toString()
+                val h = zonedDateTime.hour.toString()
+                var m = zonedDateTime.minute.toString()
+                m = if (m == "0") "00" else m
                 parsedDate["time"] =
-                    zonedDateTime.hour.toString() + ":" + zonedDateTime.minute.toString() + "hs"
+                    h + ":" + m + "hs"
             } catch (e: Exception) {
-                Log.e("mDate", e.toString())
+                Log.e("parseDate mDate error", e.toString())
+                Log.i("parseDate mDate error", e.toString())
             }
         } else {
             try {
                 val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                val date: Date = df.parse(date)
+                val dateVal: Date = df.parse(date)
                 val cal = GregorianCalendar()
-                cal.time = date
+                cal.time = dateVal
                 parsedDate["day"] = daysArray[cal[Calendar.DAY_OF_WEEK] - 1]
                 parsedDate["date"] =
                     cal[Calendar.DATE].toString() + "/" + (cal[Calendar.MONTH] + 1).toString()
                 parsedDate["time"] =
                     cal[Calendar.HOUR].toString() + ":" + cal[Calendar.MINUTE].toString() + "hs"
             } catch (e: Exception) {
-                Log.e("mDate", e.toString()) // this never gets called either
+                Log.e("parseDate mDate error", e.toString())
+                Log.i("parseDate mDate error", e.toString())
             }
         }
 
@@ -65,108 +74,72 @@ class Utils(private val activity: Activity) {
         ) + parsedDate["time"]
     }
 
-    fun getCurrentDay(): Map<String, String> {
-        var dateInfo =
+    fun getDay(dayIndicator: Int): Map<String, String> {
+        // 1: current day
+        // 1: next day
+        // -1: previous day
+        val dateInfo =
             mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             try {
-                val zonedDateTime: ZonedDateTime =
+                var zonedDateTime: ZonedDateTime =
                     LocalDateTime.now().atZone(ZoneId.systemDefault())
+                if (dayIndicator == -1) {
+                    zonedDateTime = zonedDateTime.minusDays(1)
+                } else if (dayIndicator == 1) {
+                    zonedDateTime = zonedDateTime.plusDays(1)
+                }
                 dateInfo["day"] = zonedDateTime.dayOfMonth.toString()
                 dateInfo["month"] = zonedDateTime.monthValue.toString()
                 dateInfo["year"] = zonedDateTime.year.toString()
                 dateInfo["hour"] = zonedDateTime.hour.toString()
                 dateInfo["minutes"] = zonedDateTime.minute.toString()
             } catch (e: Exception) {
-                Log.e("getCurrentDay error", e.toString())
+                Log.e("getDay error", e.toString())
+                Log.i("getDay error", e.toString())
                 showToast(activity.getString(R.string.date_error))
             }
         } else {
             try {
                 val calendar = GregorianCalendar()
                 calendar.timeZone = TimeZone.getDefault()
+                if (dayIndicator == -1) {
+                    calendar.add(Calendar.DATE, -1)
+                } else if (dayIndicator == 1) {
+                    calendar.add(Calendar.DATE, 1)
+                }
                 dateInfo["day"] = calendar[Calendar.DATE].toString()
                 dateInfo["month"] = (calendar[Calendar.MONTH] + 1).toString()
                 dateInfo["year"] = calendar[Calendar.YEAR].toString()
                 dateInfo["hour"] = calendar[Calendar.HOUR].toString()
                 dateInfo["minutes"] = calendar[Calendar.MINUTE].toString()
             } catch (e: Exception) {
-                Log.e("getCurrentDay error", e.toString())
+                Log.e("getDay error", e.toString())
+                Log.i("getDay error", e.toString())
                 showToast(activity.getString(R.string.date_error))
             }
         }
-        Log.i("getCurrentDay", "TODAY--------->" + dateInfo)
-        return dateInfo;
-    }
-
-    fun getNextDay(): Map<String, String> {
-        var dateInfo = mutableMapOf("day" to "", "month" to "", "year" to "")
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            try {
-                val zonedDateTime: ZonedDateTime =
-                    LocalDateTime.now().atZone(ZoneId.systemDefault())
-                val nextZonedDateTime: ZonedDateTime = zonedDateTime.plusDays(1)
-                dateInfo["day"] = nextZonedDateTime.dayOfMonth.toString()
-                dateInfo["month"] = nextZonedDateTime.monthValue.toString()
-                dateInfo["year"] = nextZonedDateTime.year.toString()
-            } catch (e: Exception) {
-                Log.e("getNextDay error", e.toString())
-                showToast(activity.getString(R.string.date_error))
-            }
-        } else {
-            try {
-                var calendar = GregorianCalendar()
-                calendar.timeZone = TimeZone.getDefault()
-                calendar.add(Calendar.DATE, 1)
-                dateInfo["day"] = calendar[Calendar.DATE].toString()
-                dateInfo["month"] = (calendar[Calendar.MONTH] + 1).toString()
-                dateInfo["year"] = calendar[Calendar.YEAR].toString()
-            } catch (e: Exception) {
-                Log.e("getNextDay error", e.toString())
-                showToast(activity.getString(R.string.date_error))
-            }
-        }
-        Log.i("getNextDay", "TOMORROW--------->" + dateInfo)
+        Log.i("getDay", "($dayIndicator)getDay->$dateInfo")
         return dateInfo
     }
 
-    fun getPreviousDay(): Map<String, String> {
-        var dateInfo = mutableMapOf("day" to "", "month" to "", "year" to "")
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            try {
-                val zonedDateTime: ZonedDateTime =
-                    LocalDateTime.now().atZone(ZoneId.systemDefault())
-                val nextZonedDateTime: ZonedDateTime = zonedDateTime.minusDays(1)
-                dateInfo["day"] = nextZonedDateTime.dayOfMonth.toString()
-                dateInfo["month"] = nextZonedDateTime.monthValue.toString()
-                dateInfo["year"] = nextZonedDateTime.year.toString()
-            } catch (e: Exception) {
-                Log.e("getNextDay error", e.toString())
-                showToast(activity.getString(R.string.date_error))
-            }
-        } else {
-            try {
-                var calendar = GregorianCalendar()
-                calendar.timeZone = TimeZone.getDefault()
-                calendar.add(Calendar.DATE, -1)
-                dateInfo["day"] = calendar[Calendar.DATE].toString()
-                dateInfo["month"] = (calendar[Calendar.MONTH] + 1).toString()
-                dateInfo["year"] = calendar[Calendar.YEAR].toString()
-            } catch (e: Exception) {
-                Log.e("getNextDay error", e.toString())
-                showToast(activity.getString(R.string.date_error))
-            }
-        }
-        Log.i("getPreviousDay", "YESTERDAY--------->" + dateInfo)
-        return dateInfo
-    }
-
-    private fun showToast(error: String) {
+    private fun showToast(msg: String) {
         Toast.makeText(
             activity,
-            error,
+            msg,
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    private fun displayDialogMsg(msg: String) {
+        val alertDialog =
+            AlertDialog.Builder(ContextThemeWrapper(activity, R.style.AlertDialogCustom)).create()
+        alertDialog.setTitle(activity.getString(R.string.error_title))
+        alertDialog.setMessage(msg)
+        alertDialog.setButton(
+            AlertDialog.BUTTON_POSITIVE, activity.getString(R.string.ok)
+        ) { dialog, _ -> dialog.dismiss() }
+        alertDialog.show()
     }
 }

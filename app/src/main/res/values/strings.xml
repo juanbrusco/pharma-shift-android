@@ -43,5 +43,8 @@
     <string name="share_msg">"Today's shift: "</string>
     <string name="share_title">Share</string>
     <string name="info_description">Information</string>
+    <string name="error_title">Error</string>
+    <string name="retry">Retry</string>
+    <string name="app_description">App to get the current pharmacy shift.  Using: -FancyButtons -Retrofit2 -OkHTTP3  JAB-Salto</string>
 
 </resources>

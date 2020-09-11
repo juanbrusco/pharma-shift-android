@@ -250,7 +250,8 @@
             app:layout_constraintBottom_toTopOf="@+id/cardView_msg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView_today">
+            app:layout_constraintTop_toBottomOf="@+id/cardView_today"
+            android:visibility="gone">
 
             <FrameLayout
                 android:layout_width="2dp"
