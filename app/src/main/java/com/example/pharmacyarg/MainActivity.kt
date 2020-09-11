@@ -222,19 +222,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_share?.setOnClickListener {
-            val intent = Intent()
-            intent.action = Intent.ACTION_SEND
-            intent.putExtra(
-                Intent.EXTRA_TEXT,
-                this@MainActivity.getString(R.string.share_msg) + pharmacyObj.name + " / " + pharmacyObj.address + " / " + pharmacyObj.phone
-            )
-            intent.type = "text/plain"
-            startActivity(
-                Intent.createChooser(
-                    intent,
-                    this@MainActivity.getString(R.string.share_title)
-                )
-            )
+            utils.sharePharmacyData(pharmacyObj, this)
         }
 
         button_refresh?.setOnClickListener {

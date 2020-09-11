@@ -3,20 +3,14 @@ package com.example.pharmacyarg.utils
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.ContextThemeWrapper
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
 import com.example.pharmacyarg.R
-import com.example.pharmacyarg.model.api.ApiService
-import com.example.pharmacyarg.model.api.RetrofitClient
-import com.example.pharmacyarg.model.entities.ExtrasResponse
-import com.example.pharmacyarg.model.entities.ExtrasX
-import kotlinx.android.synthetic.main.content_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.pharmacyarg.model.entities.PharmacyX
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -142,6 +136,23 @@ class Utils(private val activity: Activity) {
             setPositiveButton(activity.getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
             show()
         }
+    }
+
+    fun sharePharmacyData(pharmacyObj: PharmacyX, context: Context) {
+        val intent = Intent()
+
+        intent.action = Intent.ACTION_SEND
+        intent.putExtra(
+            Intent.EXTRA_TEXT,
+            activity.getString(R.string.share_msg) + pharmacyObj.name + " / " + pharmacyObj.address + " / " + pharmacyObj.phone
+        )
+        intent.type = "text/plain"
+        context.startActivity(
+            Intent.createChooser(
+                intent,
+                activity.getString(R.string.share_title)
+            )
+        )
     }
 
     private fun showToast(msg: String) {
