@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.annotation.Dimension.SP
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pharmacyarg.model.api.ApiService
@@ -98,14 +99,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun getTodayData() {
         var params = today
-        if ((today["hour"] ?: error("")).toInt() < HOUR_LIMIT) {
-            params = yesterday
-        } else if ((today["hour"] ?: error("")).toInt() == HOUR_LIMIT && (today["minutes"] ?: error(
-                ""
-            )).toInt() < MINUTES_LIMIT
-        ) {
-            params = yesterday
-        }
+//        if ((today["hour"] ?: error("")).toInt() < HOUR_LIMIT) {
+//            params = yesterday
+//        } else if ((today["hour"] ?: error("")).toInt() == HOUR_LIMIT && (today["minutes"] ?: error(
+//                ""
+//            )).toInt() < MINUTES_LIMIT
+//        ) {
+//            params = yesterday
+//        }
         val request = RetrofitClient.buildService(ApiService::class.java)
         val call = request.getShift(
             params["day"].toString(),
@@ -143,15 +144,20 @@ class MainActivity : AppCompatActivity() {
                             getExtraMsg()
                         }
                     } else {
-                        pharmacy_name.text = "-"
+                        setContentView(R.layout.activity_main)
+                        pharmacy_city.text = CITY
+                        pharmacy_name.text = this@MainActivity.getString(R.string.no_data_found)
+                        pharmacy_name.setTextSize(SP, 20F)
                         pharmacy_date_to.text = "-"
                         pharmacy_address.text = "-"
                         pharmacy_phone.text = "-"
+                        pharmacy_name_tomorrow.text = ""
                         button_call.visibility = GONE
                         button_address.visibility = GONE
                         button_share.visibility = GONE
-                        pharmacy_name_tomorrow.text = ""
                         cardView_tomorrow.visibility = GONE
+                        button_refresh.visibility = GONE
+                        button_information.visibility = GONE
                     }
 
                 } else {

@@ -21,7 +21,7 @@
     <string name="response_error">Response error</string>
     <string name="request_error">Request error</string>
     <string name="pharmacy_shift_text">Today\'s shift</string>
-    <string name="pharmacy_shift_text_tomorrow">Tomorrow</string>
+    <string name="pharmacy_shift_text_tomorrow">Next</string>
     <string name="Important_information">Important information</string>
     <string name="refresh_description">Refresh</string>
     <string name="title_activity_main_multi">MainActivityMulti</string>
@@ -43,4 +43,5 @@
     <string name="error_title">Error</string>
     <string name="retry">Retry</string>
     <string name="app_description">App to get the current pharmacy shift.  Using: -FancyButtons -Retrofit2 -OkHTTP3  JAB-Salto</string>
+    <string name="no_data_found">No pharmacy loaded for this day</string>
 </resources>

@@ -21,7 +21,7 @@
     <string name="share_content_description">Botón compartir</string>
     <string name="api_token">5be1fcc07510db3da52774ef2211261a0eddaaab</string>
     <string name="pharmacy_shift_text">De turno</string>
-    <string name="pharmacy_shift_text_tomorrow">Mañana</string>
+    <string name="pharmacy_shift_text_tomorrow">Siguiente turno</string>
     <string name="Important_information">Información importante</string>
     <string name="refresh_description">Actualizar</string>
     <string name="title_activity_main_multi">MainActivityMulti</string>
@@ -43,4 +43,5 @@
     <string name="error_title">Error</string>
     <string name="retry">Reintentar</string>
     <string name="app_description">Aplicación para saber qué farmacia está de turno.\n\nCon el uso de:\n-Fancybuttons\n-Retrofit2\n-Okhttp3\n\nJAB-Salto.</string>
+    <string name="no_data_found">No se encontró turno cargado para hoy</string>
 </resources>
