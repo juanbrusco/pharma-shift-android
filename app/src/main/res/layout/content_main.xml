@@ -74,6 +74,20 @@
             fancy:fb_textColor="#FFFFFF" />
 
         <TextView
+            android:id="@+id/pharmacy_city_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/app_title"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <TextView
             android:id="@+id/pharmacy_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,7 +98,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/pharmacy_city_title" />
 
 
         <androidx.cardview.widget.CardView
@@ -92,7 +106,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="24dp"
             android:elevation="10dp"
             app:cardBackgroundColor="#B4FFFFFF"
@@ -335,7 +349,7 @@
                     android:fontFamily="sans-serif-light"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent" />

@@ -40,5 +40,7 @@
     <string name="retry">Retry</string>
     <string name="app_description">App to get the current pharmacy shift.  Using: -FancyButtons -Retrofit2 -OkHTTP3  JAB-Salto</string>
     <string name="no_data_found">No pharmacy loaded for this day</string>
+    <string name="app_title">Pharmacy Shift</string>
+    <string name="app_title_multi">Pharmacies Shifts</string>
 
 </resources>

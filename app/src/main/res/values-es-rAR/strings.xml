@@ -38,4 +38,6 @@
     <string name="retry">Reintentar</string>
     <string name="app_description">Aplicación para saber qué farmacia está de turno.</string>
     <string name="no_data_found">No se encontró turno cargado para hoy</string>
+    <string name="app_title">Farmacia de Turno</string>
+    <string name="app_title_multi">Farmacias de Turno</string>
 </resources>

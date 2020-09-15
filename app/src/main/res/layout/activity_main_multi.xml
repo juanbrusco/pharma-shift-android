@@ -79,6 +79,20 @@
                 fancy:fb_textColor="#FFFFFF" />
 
             <TextView
+                android:id="@+id/pharmacy_city_multiple_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-light"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:text="@string/app_title_multi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_multiple" />
+
+            <TextView
                 android:id="@+id/pharmacy_city_multiple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,13 +103,14 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView_multiple" />
+                app:layout_constraintTop_toBottomOf="@+id/pharmacy_city_multiple_title" />
 
             <include
                 android:id="@+id/include_recycler"
                 layout="@layout/content_main_multi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -110,6 +125,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="32dp"
                 android:elevation="10dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="#B4FFFFFF"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="1dp"
