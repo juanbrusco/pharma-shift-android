@@ -1,4 +1,4 @@
-package com.example.pharmacyarg
+package com.jab.pharmacyarg
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.pharmacyarg.model.api
+package com.jab.pharmacyarg.model.api
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

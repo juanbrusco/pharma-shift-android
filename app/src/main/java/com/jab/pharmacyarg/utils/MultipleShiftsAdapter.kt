@@ -1,4 +1,4 @@
-package com.example.pharmacyarg.utils
+package com.jab.pharmacyarg.utils
 
 import android.app.Activity
 import android.content.Context
@@ -11,9 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pharmacyarg.R
-import com.example.pharmacyarg.model.entities.PharmacyX
-import com.example.pharmacyarg.model.entities.ShiftX
+import com.jab.pharmacyarg.R
+import com.jab.pharmacyarg.model.entities.PharmacyX
+import com.jab.pharmacyarg.model.entities.ShiftX
 import mehdi.sakout.fancybuttons.FancyButton
 
 /**

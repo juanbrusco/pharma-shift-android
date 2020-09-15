@@ -1,4 +1,4 @@
-package com.example.pharmacyarg.utils
+package com.jab.pharmacyarg.utils
 
 import android.Manifest
 import android.app.Activity

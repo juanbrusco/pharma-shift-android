@@ -1,11 +1,11 @@
-package com.example.pharmacyarg.model.entities
+package com.jab.pharmacyarg.model.entities
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ProfileX(
-    @SerializedName("location")
-    val location: CityX
+data class ExtrasResponse(
+    @SerializedName("extras")
+    val extras: ArrayList<ExtrasX>
 ) : Parcelable

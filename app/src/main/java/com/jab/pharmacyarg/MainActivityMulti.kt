@@ -1,4 +1,4 @@
-package com.example.pharmacyarg
+package com.jab.pharmacyarg
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,10 +6,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pharmacyarg.model.entities.ExtrasX
-import com.example.pharmacyarg.model.entities.ShiftX
-import com.example.pharmacyarg.utils.MultipleShiftsAdapter
-import com.example.pharmacyarg.utils.Utils
+import com.jab.pharmacyarg.model.entities.ExtrasX
+import com.jab.pharmacyarg.model.entities.ShiftX
+import com.jab.pharmacyarg.utils.MultipleShiftsAdapter
+import com.jab.pharmacyarg.utils.Utils
 import kotlinx.android.synthetic.main.activity_main_multi.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")

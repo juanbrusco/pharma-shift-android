@@ -1,4 +1,4 @@
-package com.example.pharmacyarg
+package com.jab.pharmacyarg
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -14,11 +14,11 @@ import android.view.View.VISIBLE
 import androidx.annotation.Dimension.SP
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pharmacyarg.model.api.ApiService
-import com.example.pharmacyarg.model.api.RetrofitClient
-import com.example.pharmacyarg.model.entities.*
-import com.example.pharmacyarg.utils.ManagePermissions
-import com.example.pharmacyarg.utils.Utils
+import com.jab.pharmacyarg.model.api.ApiService
+import com.jab.pharmacyarg.model.api.RetrofitClient
+import com.jab.pharmacyarg.model.entities.*
+import com.jab.pharmacyarg.utils.ManagePermissions
+import com.jab.pharmacyarg.utils.Utils
 import kotlinx.android.synthetic.main.content_main.*
 import retrofit2.Call
 import retrofit2.Callback

@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FarmaciaArg</string>
+    <string name="app_name">Farmacia de Turno - Salto</string>
     <string name="action_settings">Configuración</string>
-    <string name="first_fragment_label">Primer Fragmento</string>
-    <string name="second_fragment_label">Segundo Fragmento</string>
-    <string name="next">Siguiente</string>
-    <string name="previous">Hola primer fragmento</string>
     <string name="pharmacy_icon_description">Icono de farmacia</string>
     <string name="api_url">https://pharmacy-admin-arg.herokuapp.com/api/</string>
-    <string name="hello_second_fragment">Hola segundo fragmento. Arg: %1$s</string>
-    <string name="hello_first_fragment">Hola primer fragmento</string>
     <string name="share_content_description">Botón compartir</string>
     <string name="call_content_description">Botón de llamada</string>
     <string name="address_content_description">Botón de dirección</string>

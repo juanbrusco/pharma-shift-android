@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PharmacyArg</string>
+    <string name="app_name">Pharmacy Shift - Salto</string>
     <string name="action_settings">Settings</string>
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="pharmacy_icon_description">Pharmacy icon</string>
     <string name="call_content_description">Call button</string>
     <string name="share_content_description">Share button</string>
@@ -16,7 +10,7 @@
     <string name="api_token">5be1fcc07510db3da52774ef2211261a0eddaaab</string>
     <string name="permission_request">Permission request</string>
     <string name="permission_justification">Permission required to continue</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="response_error">Response error</string>
     <string name="request_error">Request error</string>

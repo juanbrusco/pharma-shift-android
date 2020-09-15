@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.medyo:fancybuttons:1.9.1@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/93249a1951fa130456e91ee52fa2348f/jetified-fancybuttons-1.9.1/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/93249a1951fa130456e91ee52fa2348f/jetified-fancybuttons-1.9.1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/93249a1951fa130456e91ee52fa2348f/jetified-fancybuttons-1.9.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/614121a733e23756a3cac7c0d2beecc6/jetified-fancybuttons-1.9.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/614121a733e23756a3cac7c0d2beecc6/jetified-fancybuttons-1.9.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/614121a733e23756a3cac7c0d2beecc6/jetified-fancybuttons-1.9.1/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.medyo/fancybuttons/1.9.1/1752661e78281e97285473de74ecf4f7eeb9f044/fancybuttons-1.9.1-javadoc.jar!/" />

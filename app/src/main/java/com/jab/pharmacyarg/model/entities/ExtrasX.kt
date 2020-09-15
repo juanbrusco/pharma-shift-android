@@ -1,4 +1,4 @@
-package com.example.pharmacyarg.model.entities
+package com.jab.pharmacyarg.model.entities
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

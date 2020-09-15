@@ -1,8 +1,8 @@
-package com.example.pharmacyarg.model.api
+package com.jab.pharmacyarg.model.api
 
-import com.example.pharmacyarg.model.entities.CityResponse
-import com.example.pharmacyarg.model.entities.ExtrasResponse
-import com.example.pharmacyarg.model.entities.ShiftResponse
+import com.jab.pharmacyarg.model.entities.CityResponse
+import com.jab.pharmacyarg.model.entities.ExtrasResponse
+import com.jab.pharmacyarg.model.entities.ShiftResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

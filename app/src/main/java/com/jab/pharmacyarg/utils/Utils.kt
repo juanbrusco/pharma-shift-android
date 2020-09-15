@@ -1,4 +1,4 @@
-package com.example.pharmacyarg.utils
+package com.jab.pharmacyarg.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -8,8 +8,8 @@ import android.util.Log
 import android.view.ContextThemeWrapper
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.pharmacyarg.R
-import com.example.pharmacyarg.model.entities.PharmacyX
+import com.jab.pharmacyarg.R
+import com.jab.pharmacyarg.model.entities.PharmacyX
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -77,9 +77,9 @@ class Utils(private val activity: Activity) {
     }
 
     fun getDay(dayIndicator: Int): Map<String, String> {
-        // 1: current day
-        // 1: next day
-        // -1: previous day
+        // 0: current day
+        // 1: +1 day
+        // -1: -1 day
         val dateInfo =
             mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
 
