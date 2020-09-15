@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.widget.Toast
@@ -63,8 +64,11 @@ class Utils(private val activity: Activity) {
                 parsedDate["day"] = daysArray[cal[Calendar.DAY_OF_WEEK] - 1]
                 parsedDate["date"] =
                     cal[Calendar.DATE].toString() + "/" + (cal[Calendar.MONTH] + 1).toString()
+                val h = cal[Calendar.HOUR_OF_DAY].toString()
+                var m = cal[Calendar.MINUTE].toString()
+                m = if (m == "0") "00" else m
                 parsedDate["time"] =
-                    cal[Calendar.HOUR].toString() + ":" + cal[Calendar.MINUTE].toString() + "hs"
+                    h + ":" + m + "hs"
             } catch (e: Exception) {
                 Log.e("parseDate mDate error", e.toString())
                 Log.i("parseDate mDate error", e.toString())
@@ -114,7 +118,7 @@ class Utils(private val activity: Activity) {
                 dateInfo["day"] = calendar[Calendar.DATE].toString()
                 dateInfo["month"] = (calendar[Calendar.MONTH] + 1).toString()
                 dateInfo["year"] = calendar[Calendar.YEAR].toString()
-                dateInfo["hour"] = calendar[Calendar.HOUR].toString()
+                dateInfo["hour"] = calendar[Calendar.HOUR_OF_DAY].toString()
                 dateInfo["minutes"] = calendar[Calendar.MINUTE].toString()
             } catch (e: Exception) {
                 Log.e("getDay error", e.toString())
@@ -154,7 +158,7 @@ class Utils(private val activity: Activity) {
         )
     }
 
-    private fun showToast(msg: String) {
+    fun showToast(msg: String) {
         Toast.makeText(
             activity,
             msg,

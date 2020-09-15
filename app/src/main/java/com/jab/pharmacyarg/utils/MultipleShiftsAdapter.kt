@@ -85,26 +85,32 @@ class MultipleShiftsAdapter(
                     permissionsRequestCode
                 )
             } else {
-                // open geolocation activity
-                val gmmIntentUri = Uri.parse(parsedGeo)
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.setPackage("com.google.android.apps.maps")
-                mapIntent.resolveActivity(packageManager)?.let {
-                    context.startActivity(mapIntent)
-                }
+                openMap(parsedGeo)
             }
         } else {
-            // open geolocation activity
-            val gmmIntentUri = Uri.parse(parsedGeo)
-            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            mapIntent.setPackage("com.google.android.apps.maps")
-            mapIntent.resolveActivity(packageManager)?.let {
+            openMap(parsedGeo)
+        }
+    }
+
+    private fun openMap(parsedGeo: String) {
+        val utils = Utils(activity)
+        val gmmIntentUri = Uri.parse(parsedGeo)
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        if (mapIntent.resolveActivity(packageManager) != null) {
+            try {
                 context.startActivity(mapIntent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                utils.showToast(activity.getString(R.string.intent_error))
             }
+        } else {
+            utils.showToast(activity.getString(R.string.maps_required))
         }
     }
 
     private fun requestCallPermission(phone: String?) {
+        val utils = Utils(activity)
         val permissionsRequestCodeCall = 42
         val managePermissions = ManagePermissions()
         // If version is lower than M, permissions are accepted on app installation
@@ -123,6 +129,7 @@ class MultipleShiftsAdapter(
                 context.startActivity(intent)
             } catch (e: Exception) {
                 e.printStackTrace()
+                utils.showToast(activity.getString(R.string.intent_error))
             }
         }
     }

@@ -40,4 +40,6 @@
     <string name="no_data_found">No pharmacy loaded for this day</string>
     <string name="app_title">Pharmacy Shift</string>
     <string name="app_title_multi">Pharmacies Shifts</string>
+    <string name="intent_error">Not valid action for this device</string>
+    <string name="maps_required">Google Maps are required for this action</string>
 </resources>

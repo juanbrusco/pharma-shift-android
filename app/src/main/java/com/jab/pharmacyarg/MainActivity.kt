@@ -298,6 +298,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             } catch (e: Exception) {
                 e.printStackTrace()
+                utils.showToast(this@MainActivity.getString(R.string.intent_error))
             }
         }
     }
@@ -319,22 +320,26 @@ class MainActivity : AppCompatActivity() {
                     permissionsRequestCode
                 )
             } else {
-                // open geolocation activity
-                val gmmIntentUri = Uri.parse(parsedGeo)
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.setPackage("com.google.android.apps.maps")
-                mapIntent.resolveActivity(packageManager)?.let {
-                    startActivity(mapIntent)
-                }
+                openMap(parsedGeo)
             }
         } else {
-            // open geolocation activity
-            val gmmIntentUri = Uri.parse(parsedGeo)
-            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            mapIntent.setPackage("com.google.android.apps.maps")
-            mapIntent.resolveActivity(packageManager)?.let {
+            openMap(parsedGeo)
+        }
+    }
+
+    private fun openMap(parsedGeo: String) {
+        val gmmIntentUri = Uri.parse(parsedGeo)
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        if (mapIntent.resolveActivity(packageManager) != null) {
+            try {
                 startActivity(mapIntent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                utils.showToast(this@MainActivity.getString(R.string.intent_error))
             }
+        } else {
+            utils.showToast(this@MainActivity.getString(R.string.maps_required))
         }
     }
 

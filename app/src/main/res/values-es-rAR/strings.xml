@@ -40,4 +40,6 @@
     <string name="no_data_found">No se encontró turno cargado para hoy</string>
     <string name="app_title">Farmacia de Turno</string>
     <string name="app_title_multi">Farmacias de Turno</string>
+    <string name="intent_error">Esta acción no está disponible para este dispositivo</string>
+    <string name="maps_required">La aplicación Google Maps debe estar instalada</string>
 </resources>
