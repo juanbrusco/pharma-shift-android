@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.ContextThemeWrapper
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.startActivity
 import com.example.pharmacyarg.R
 import com.example.pharmacyarg.model.entities.PharmacyX
 import java.text.DateFormat
@@ -161,16 +160,5 @@ class Utils(private val activity: Activity) {
             msg,
             Toast.LENGTH_SHORT
         ).show()
-    }
-
-    private fun displayDialogMsg(msg: String) {
-        val alertDialog =
-            AlertDialog.Builder(ContextThemeWrapper(activity, R.style.AlertDialogCustom)).create()
-        alertDialog.setTitle(activity.getString(R.string.error_title))
-        alertDialog.setMessage(msg)
-        alertDialog.setButton(
-            AlertDialog.BUTTON_POSITIVE, activity.getString(R.string.ok)
-        ) { dialog, _ -> dialog.dismiss() }
-        alertDialog.show()
     }
 }

@@ -119,7 +119,7 @@ class MultipleShiftsAdapter(
 
         if (granted) {
             try {
-                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone))
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phone"))
                 context.startActivity(intent)
             } catch (e: Exception) {
                 e.printStackTrace()

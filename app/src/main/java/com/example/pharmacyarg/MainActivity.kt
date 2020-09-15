@@ -26,24 +26,18 @@ import retrofit2.Response
 import java.util.*
 
 
+@Suppress("PrivatePropertyName", "unused")
 class MainActivity : AppCompatActivity() {
 
     private var cityObj: CityX = CityX(0, "", "", "")
     private var citiesList = arrayListOf(cityObj)
-
     private var pharmacyObj: PharmacyX = PharmacyX(0, "", "", "", "", "", "", cityObj)
-//    private var profileObj: ProfileX = ProfileX(cityObj)
-//    private var userObj: UserX = UserX("", "", "", "", profileObj)
-
-//    private var shiftObj: ShiftX = ShiftX(0, "", "", pharmacyObj, cityObj, userObj)
-//    private var shiftsList = arrayListOf(shiftObj)
-//    private val shiftResponseObj: ShiftResponse = ShiftResponse(shift = shiftsList)
 
     private val APP_CITY = "Salto"
     private var CITY = ""
     private var CITY_ID = 0
     private var HOUR_LIMIT = 8
-    private var MINUTES_LIMIT = 30
+    private var MINUTES_LIMIT = 0
 
     private lateinit var utils: Utils
     private var today: Map<String, String> =
@@ -93,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<CityResponse>, t: Throwable) {
                 displayAlterError(this@MainActivity.getString(R.string.request_error))
-                Log.i("getCities error", "onFailure")
+                Log.i("getCities error", "onFailure" + t.message + " " + t.cause)
             }
         })
     }
@@ -129,7 +123,6 @@ class MainActivity : AppCompatActivity() {
                             setContentView(R.layout.activity_main)
                             pharmacy_city.text = CITY
 
-                            // TODO: use "?" to check if value comes from service
                             pharmacyObj = shifts[0].pharmacy
 
                             val parsedDate =
@@ -169,7 +162,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ShiftResponse>, t: Throwable) {
                 displayAlterError(this@MainActivity.getString(R.string.request_error))
-                Log.i("getTodayData error", "onFailure")
+                Log.i("getTodayData error", "onFailure" + t.message + " " + t.cause)
             }
         })
     }
@@ -203,7 +196,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ShiftResponse>, t: Throwable) {
                 displayAlterError(this@MainActivity.getString(R.string.request_error))
-                Log.i("getTomorrowData error", "onFailure")
+                Log.i("getTomorrowData error", "onFailure" + t.message + " " + t.cause)
             }
         })
     }
@@ -282,7 +275,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ExtrasResponse>, t: Throwable) {
                 displayAlterError(this@MainActivity.getString(R.string.request_error))
-                Log.i("getTomorrowData error", "onFailure")
+                Log.i("getTomorrowData error", "onFailure" + t.message + " " + t.cause)
             }
         })
     }

@@ -62,7 +62,8 @@ class MainActivityMulti : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = linearLayoutManager
 
-        val rvAdapter = MultipleShiftsAdapter(shiftsList, this@MainActivityMulti, this, packageManager)
+        val rvAdapter =
+            MultipleShiftsAdapter(shiftsList, this@MainActivityMulti, this, packageManager)
         recyclerView.adapter = rvAdapter
         recyclerView.isFocusable = false
 

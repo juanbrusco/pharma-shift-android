@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
-
 @Parcelize
 data class ShiftX(
     @SerializedName("id")
