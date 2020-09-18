@@ -18,3 +18,31 @@
 
 #### RecyclerView       
 <https://medium.com/@nhkarthick/recyclerview-and-cardview-implementation-in-android-kotlin-f5a0d0a437c7>    
+
+# License
+
+## Authors / Copyright
+
+2020 (c) Juan Brusco
+
+## Third-party component licenses
+
+### Tools
+
+| Name                                                        | License                   |
+| ----------------------------------------------------------- | ------------------------- |
+| [Gradle](https://gradle.org/)                         | Apache 2.0                       |
+
+
+### Libraries
+
+| Name                                                       | License    |
+| ---------------------------------------------------------- | ---------- |
+| [TEST THIS ONE---Lottie](https://github.com/airbnb/lottie-android)       | Apache 2.0        |
+| [JSON PARSER LIB ---CHANGE](https://github.com/XXX)          | XXXX        |
+| [OkHttp](https://github.com/square/okhttp/)            | Apache 2.0 |
+| [Retrofit](https://github.com/square/retrofit)      | Apache 2.0        |
+
+## License details
+
+The licence for this repository is under the MIT License. Please see the [LICENSE](LICENSE) file for full reference.
