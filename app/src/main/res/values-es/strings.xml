@@ -36,7 +36,7 @@
     <string name="info_description">Información</string>
     <string name="error_title">Error</string>
     <string name="retry">Reintentar</string>
-    <string name="app_description">Aplicación para saber qué farmacia está de turno.\n\nCon el uso de:\n-Fancybuttons\n-Retrofit2\n-Okhttp3\n\nJAB-Salto.</string>
+    <string name="app_description">Aplicación para saber qué farmacia está de turno.\n\nCon el uso de:\n-Fancybuttons\n-Retrofit2\n-Gson\n-Okhttp3\n\nJAB-Salto.</string>
     <string name="no_data_found">No se encontró turno cargado para hoy</string>
     <string name="app_title">Farmacia de Turno</string>
     <string name="app_title_multi">Farmacias de Turno</string>

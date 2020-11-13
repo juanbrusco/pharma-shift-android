@@ -33,19 +33,24 @@ class MainActivity : AppCompatActivity() {
     private var citiesList = arrayListOf(cityObj)
     private var pharmacyObj: PharmacyX = PharmacyX(0, "", "", "", "", "", "", cityObj)
 
+    // used to filter city after get all the cities on db. This value determines the app city
     private val APP_CITY = "Salto"
+
+    // used to display on screen title (mainactivity & mainactivitymulti). After get the city data (filtered by APP_CITY), populate this value with complete name
     private var CITY = ""
+
+    // used to get shifts and msg from db, filter by city. After get the city data (filtered by APP_CITY), populate this value with id
     private var CITY_ID = 0
-    private var HOUR_LIMIT = 8
-    private var MINUTES_LIMIT = 0
 
     private lateinit var utils: Utils
+
     private var today: Map<String, String> =
         mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
     private var tomorrow: Map<String, String> =
         mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
     private var yesterday: Map<String, String> =
         mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
+
     private val permissionsRequestCode = 123
     private val permissionsRequestCodeCall = 42
     private lateinit var managePermissions: ManagePermissions
@@ -57,9 +62,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_progress)
 
         utils = Utils(this@MainActivity)
+
         today = utils.getDay(0)
         tomorrow = utils.getDay(1)
         yesterday = utils.getDay(-1)
+
         getCities()
     }
 
@@ -93,15 +100,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getTodayData() {
+        // used to get shifts depending on device hour&minutes. Currently is not used, shift is returned correctly from backend
+        // var HOUR_LIMIT = 8
+        // var MINUTES_LIMIT = 0
+        // val params = utils.calculateShiftTIme(HOUR_LIMIT, MINUTES_LIMIT)
+
         val params = today
-//        if ((today["hour"] ?: error("")).toInt() < HOUR_LIMIT) {
-//            params = yesterday
-//        } else if ((today["hour"] ?: error("")).toInt() == HOUR_LIMIT && (today["minutes"] ?: error(
-//                ""
-//            )).toInt() < MINUTES_LIMIT
-//        ) {
-//            params = yesterday
-//        }
         val request = RetrofitClient.buildService(ApiService::class.java)
         val call = request.getShift(
             params["day"].toString(),

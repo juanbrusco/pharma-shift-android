@@ -165,4 +165,23 @@ class Utils(private val activity: Activity) {
             Toast.LENGTH_SHORT
         ).show()
     }
+
+    fun calculateShiftTIme(hour_limit: Int, minutes_limit: Int): Map<String, String> {
+        var today: Map<String, String> =
+            mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
+        var yesterday: Map<String, String> =
+            mutableMapOf("day" to "", "month" to "", "year" to "", "hour" to "", "minutes" to "")
+        today = this.getDay(0)
+        yesterday = this.getDay(-1)
+        var params = today
+        if ((today["hour"] ?: error("")).toInt() < hour_limit) {
+            params = yesterday
+        } else if ((today["hour"] ?: error("")).toInt() == hour_limit && (today["minutes"] ?: error(
+                ""
+            )).toInt() < minutes_limit
+        ) {
+            params = yesterday
+        }
+        return params
+    }
 }

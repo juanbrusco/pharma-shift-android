@@ -1,13 +1,10 @@
 <resources>
     <string name="app_name">Pharmacy Shift - Salto</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-
     <string name="pharmacy_icon_description">Pharmacy icon</string>
     <string name="call_content_description">Call button</string>
     <string name="share_content_description">Share button</string>
     <string name="address_content_description">Address button</string>
-
     <string name="api_url">https://pharmacy-admin-arg.herokuapp.com/api/</string>
     <string name="api_token">5be1fcc07510db3da52774ef2211261a0eddaaab</string>
     <string name="permission_request">Permission request</string>
@@ -38,11 +35,10 @@
     <string name="info_description">Information</string>
     <string name="error_title">Error</string>
     <string name="retry">Retry</string>
-    <string name="app_description">App to get the current pharmacy shift.  Using: -FancyButtons -Retrofit2 -OkHTTP3  JAB-Salto</string>
+    <string name="app_description">App to get the current pharmacy shift.  Using:\n-Fancybuttons\n-Retrofit2\n-Gson\n-Okhttp3\n\nJAB-Salto.</string>
     <string name="no_data_found">No pharmacy loaded for this day</string>
     <string name="app_title">Pharmacy Shift</string>
     <string name="app_title_multi">Pharmacies Shifts</string>
     <string name="intent_error">Not valid action for this device</string>
     <string name="maps_required">Google Maps are required for this action</string>
-
 </resources>
