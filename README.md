@@ -7,7 +7,12 @@
 
 #### Change City
 - on MainActivity chage APP_CITY. Then the app get all the cities saved (from DB) and filter selected based on that variable
-- on "string resources" change app_name value for all translations
+- on "string resources" change app_name value for all translations    
+
+#### Release    
+- change version values on app/build.grade
+`   versionCode 1    
+    versionName "1.0" `     
 
 #### Time API       
 <https://www.baeldung.com/migrating-to-java-8-date-time-api>        
