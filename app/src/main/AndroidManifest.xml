@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.pharmacyarg">
+    package="com.jab.pharmacyarg">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.jab.pharmacyarg.MainActivityMulti"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_main_multi"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.jab.pharmacyarg.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>

@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FarmaciaArg</string>
+    <string name="app_name">Farmacia de Turno - Salto</string>
     <string name="permission_request">Solicitud de permiso</string>
-    <string name="next">Siguiente</string>
-    <string name="second_fragment_label">Segundo Fragmento</string>
-    <string name="first_fragment_label">Primer Fragmento</string>
-    <string name="permission_justification">Permiso requerido para continuar</string>
+    <string name="permission_justification">Permiso requerido para continuar. Habilitarlo en Configuración del dispositivo.</string>
     <string name="ok">Ok</string>
     <string name="api_url">https://pharmacy-admin-arg.herokuapp.com/api/</string>
     <string name="pharmacy_icon_description">Icono de farmacia</string>
-    <string name="hello_second_fragment">Hola segundo fragmento. Arg: %1$s</string>
-    <string name="previous">Hola primer fragmento</string>
-    <string name="hello_first_fragment">Hola primer fragmento</string>
     <string name="response_error">Error en respuesta de servicio</string>
     <string name="request_error">Error al comunicarse con el servicio</string>
     <string name="action_settings">Configuración</string>
@@ -21,7 +15,31 @@
     <string name="share_content_description">Botón compartir</string>
     <string name="api_token">5be1fcc07510db3da52774ef2211261a0eddaaab</string>
     <string name="pharmacy_shift_text">De turno</string>
-    <string name="pharmacy_shift_text_tomorrow">Mañana</string>
+    <string name="pharmacy_shift_text_tomorrow">Próximo turno</string>
     <string name="Important_information">Información importante</string>
     <string name="refresh_description">Actualizar</string>
+    <string name="title_activity_main_multi">MainActivityMulti</string>
+    <string name="sunday">Domingo</string>
+    <string name="monday">Lunes</string>
+    <string name="tuesday">Martes</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="thursday">Jueves</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sábado</string>
+    <string name="date_to">"Hasta el "</string>
+    <string name="time_to">" a las "</string>
+    <string name="date_error">Error con manejo de fechas</string>
+    <string name="granted">Permiso otorgado</string>
+    <string name="denied">Permiso denegado</string>
+    <string name="share_msg">"Hoy de turno: "</string>
+    <string name="share_title">Compartir</string>
+    <string name="info_description">Información</string>
+    <string name="error_title">Error</string>
+    <string name="retry">Reintentar</string>
+    <string name="app_description">Aplicación para saber qué farmacia está de turno.\n\nCon el uso de:\n-Fancybuttons\n-Retrofit2\n-Gson\n-Okhttp3\n\nJAB-Salto.</string>
+    <string name="no_data_found">No se encontró turno cargado para hoy</string>
+    <string name="app_title">Farmacia de Turno</string>
+    <string name="app_title_multi">Farmacias de Turno</string>
+    <string name="intent_error">Esta acción no está disponible para este dispositivo</string>
+    <string name="maps_required">La aplicación Google Maps debe estar instalada</string>
 </resources>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView_today_multiple"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="24dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="24dp"
+    android:elevation="10dp"
+    app:cardBackgroundColor="#B4FFFFFF"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="1dp"
+    app:contentPadding="15dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <FrameLayout
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/pharmacy_shift_text_multiple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/pharmacy_shift_text"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_multiple" />
+
+            <TextView
+                android:id="@+id/pharmacy_name_multiple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textAlignment="textStart"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/pharmacy_date_to_multiple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="sans-serif-light"
+                android:textAlignment="textStart"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/pharmacy_address_multiple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="sans-serif-light"
+                android:textAlignment="textStart"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/pharmacy_phone_multiple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="sans-serif-light"
+                android:textAlignment="textStart"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/button_address_multiple"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="0dp"
+                fancy:fb_defaultColor="@color/colorPrimaryDark"
+                fancy:fb_focusColor="@color/colorAccent"
+                fancy:fb_fontIconResource="&#xf041;"
+                fancy:fb_fontIconSize="24dp"
+                fancy:fb_iconPaddingLeft="0dp"
+                fancy:fb_iconPaddingRight="0dp"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="40dp"
+                fancy:fb_text=""
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/button_call_multiple"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="0dp"
+                fancy:fb_defaultColor="@color/colorPrimaryDark"
+                fancy:fb_focusColor="@color/colorAccent"
+                fancy:fb_fontIconResource="&#xf095;"
+                fancy:fb_fontIconSize="24dp"
+                fancy:fb_iconPaddingLeft="0dp"
+                fancy:fb_iconPaddingRight="0dp"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="40dp"
+                fancy:fb_text=""
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/button_share_multiple"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="0dp"
+                fancy:fb_defaultColor="@color/colorPrimaryDark"
+                fancy:fb_focusColor="@color/colorAccent"
+                fancy:fb_fontIconResource="&#xf1e0;"
+                fancy:fb_fontIconSize="24dp"
+                fancy:fb_iconPaddingLeft="0dp"
+                fancy:fb_iconPaddingRight="0dp"
+                fancy:fb_iconPosition="left"
+                fancy:fb_radius="40dp"
+                fancy:fb_text=""
+                fancy:fb_textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
